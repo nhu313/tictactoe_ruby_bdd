@@ -20,6 +20,9 @@ module TicTacToe
         return false if square_available?(position)
       end
       return true
+      
+      # available_squares == []
+      
     end
     
     def rows
@@ -42,6 +45,14 @@ module TicTacToe
       left_diagonal = diagonal_from_top_left
       right_diagonal = diagonal_from_top_right
       [left_diagonal, right_diagonal]
+    end
+    
+    def available_squares
+      result = []
+      (0...squares.size).each do |position|
+        result << position if square_available?(position)
+      end
+      result
     end
     
     private

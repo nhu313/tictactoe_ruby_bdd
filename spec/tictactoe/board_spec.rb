@@ -16,8 +16,12 @@ describe TicTacToe::Board do
   end
   
   it "is filled when all the squares are marked" do
-    (0...size**2).each {|position| board.mark(position, player_value)}
+    mark_all_squares
     board.should be_filled
+  end
+  
+  def mark_all_squares
+    (0...size**2).each {|position| board.mark(position, player_value)}
   end
 
 	it "board size is the size set" do
@@ -67,6 +71,23 @@ describe TicTacToe::Board do
       board.mark(4, player_value)
       squares = [[0, player_value, 8], [2, player_value, 6]]
       board.diagonals.should == squares
+    end
+  end
+  
+  describe "available squares" do
+    it "returns all squares when none is marked" do
+      board.available_squares.should == (0...size**2).to_a
+    end
+    
+    it "doesn't return the marked square" do
+      move = 2
+      board.mark(move, player_value)
+      board.available_squares.include?(move).should be_false
+    end
+    
+    it "is empty when all the squares are marked" do
+      mark_all_squares
+      board.available_squares.should == []
     end
   end
 end
