@@ -7,7 +7,7 @@ module TicTacToe
       @squares = (0...@size**2).to_a
     end
 
-    def mark(move, value)
+    def mark(move, value) #player?
       squares[move] = value
     end
     
@@ -16,13 +16,7 @@ module TicTacToe
     end
     
     def filled?
-      (0...squares.size).each do |position|
-        return false if square_available?(position)
-      end
-      return true
-      
-      # available_squares == []
-      
+      available_squares.empty?
     end
     
     def rows
@@ -54,6 +48,14 @@ module TicTacToe
       end
       result
     end
+    
+    def clone
+      duplicate_board = TicTacToe::Board.new(@size)
+      duplicate_board.squares = @squares.clone
+      duplicate_board
+    end
+    
+    attr_writer :squares
     
     private
     def reset_squares

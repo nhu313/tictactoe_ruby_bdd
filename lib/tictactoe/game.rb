@@ -32,7 +32,7 @@ module TicTacToe
     
     def over?
       return true if @win_determiner.win?(@current_player.value)
-      return true if @win_determiner.tied?
+      return true if @win_determiner.tied?(@current_player.value)
       false
     end
     
@@ -43,6 +43,6 @@ module TicTacToe
         @ui.display_tied_game 
       end
     end
-    
+
   end
 end

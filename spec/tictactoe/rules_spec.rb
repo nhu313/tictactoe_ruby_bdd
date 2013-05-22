@@ -1,12 +1,12 @@
-require 'tictactoe/win_determiner'
+require 'tictactoe/rules'
 require 'tictactoe/board'
 
-describe TicTacToe::WinDeterminer do
+describe TicTacToe::Rules do
     
   before(:each) do
     @player_value = "X"
     @board = TicTacToe::Board.new(3)
-    @win_determiner = TicTacToe::WinDeterminer.new(@board)
+    @win_determiner = TicTacToe::Rules.new(@board)
   end
   
   it "is false when player didn't mark any squares" do
@@ -99,6 +99,32 @@ describe TicTacToe::WinDeterminer do
       @board.mark(8, "O")
       mark([0, 4])
       @win_determiner.win?(@player_value).should be_false
+    end
+  end
+  
+  context "tied" do
+    it "is false when the board is empty" do
+      @win_determiner.tied?(@player_value).should be_false
+    end
+    
+    it "is false when there is a winner" do
+      mark([0, 1, 2])
+      @win_determiner.tied?(@player_value).should be_false
+    end
+    
+    it "is false when there is a winner and the board is filled" do
+      mark((0...@board.size**2).to_a)
+      @win_determiner.tied?(@player_value).should be_false
+    end
+    
+    it "is false when there is no winner and the board is not filled" do
+      mark([0])
+      @win_determiner.tied?(@player_value).should be_false
+    end
+    
+    it "is true when there is no winner and the board is filled" do
+      (@board.size**2).times {|i| @board.mark(i, "i")}
+      @win_determiner.tied?(@player_value).should be_true
     end
   end
   

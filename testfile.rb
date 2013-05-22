@@ -1,38 +1,12 @@
-size = 9
-squares = (0...size).to_a
-# result = (0...9).inject([]) do |result, value| 
-#   result << value if value % (size + 1) == 0
-#   result
-# end
+Node = Struct.new(:score)
 
-# result = []
-# index = 0
-# result << index && index += 4 while index < size
+node1 = Node.new(4)
+node2 = Node.new(6)
 
-# result = [1, 2, 3, 4, 5, 6].inject([]) do |result, elm|
-#   result << elm * 2 if elm % 2 == 0
-#   # result
-# end
-
-# result = []
-# diagonal_square_distance = size - 1
-# index = diagonal_square_distance
-# while result.size < size
-#   result << squares[index]
-#   index += diagonal_square_distance
-# end
-# result
-
-# result = squares.values_at(*squares.each_index.select {|i| i % 4 == 0}) 
-
-# result = []
-# diagonal_square_distance = 2
-# index = diagonal_square_distance
-# while result.size < 3
-#   result << squares[index]
-#   index += diagonal_square_distance
-# end
-
-result = squares.values_at(*squares.each_index.select {|i| i % 2 == 0})
-
-puts(result)
+nodes = [node1, node2]
+# 
+# v = nodes.inject(0) {|s, n| s += n.score}
+# 
+# puts(v)
+n = nodes.detect { |n1| n1.score == 8}
+puts(n == nil)
