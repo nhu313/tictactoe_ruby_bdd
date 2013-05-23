@@ -30,6 +30,6 @@ module TicTacToe
          result << "|\n" if (index + 1) % @board.size == 0
       end
       result      
-    end
+    end    
   end
 end

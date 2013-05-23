@@ -7,11 +7,6 @@ describe TicTacToe::HumanPlayer do
     @player = TicTacToe::HumanPlayer.new(Hash[:name => name])
     @player.name.should == name
   end
-
-  it "tests to sym" do
-    @player = TicTacToe::HumanPlayer.new(Hash.new)
-    @player.to_sym.should == :human_player
-  end
   
   context "gets user move" do
     before(:each) do

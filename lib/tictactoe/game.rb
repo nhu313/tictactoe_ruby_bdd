@@ -22,7 +22,7 @@ module TicTacToe
       change_player
       @ui.display_board
       move = @current_player.move
-      @board.mark(move, @current_player.to_sym)
+      @board.mark(move, @current_player.value)
       play until over?
     end
     
@@ -31,13 +31,13 @@ module TicTacToe
     end
     
     def over?
-      return true if @win_determiner.win?(@current_player.to_sym)
-      return true if @win_determiner.tied?(@current_player.to_sym)
+      return true if @win_determiner.win?(@current_player.value)
+      return true if @win_determiner.tied?(@current_player.value)
       false
     end
     
     def result
-      if @win_determiner.win?(@current_player.to_sym) 
+      if @win_determiner.win?(@current_player.value) 
         @ui.display_winner(@current_player.name) 
       else
         @ui.display_tied_game 

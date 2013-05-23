@@ -1,7 +1,11 @@
 module TicTacToe
   class ComputerPlayer
+    attr_reader :name, :value
+    
     def initialize(options)
-      @output = options[:output]
+      @name = options[:name]
+      @value = options[:value]
+      @output = options[:output] || STDOUT
       @player = options[:player]
       @opponent = options[:opponent]
       @board = options[:board]
@@ -18,6 +22,7 @@ module TicTacToe
       move.move
     end
     
+    private
     def minimax
       moves = []
       available_moves = @board.available_squares
@@ -73,7 +78,7 @@ module TicTacToe
       moves.min_by {|m| m.score}
     end
     
-    private
+    # private
 
     WINNING_SCORE = 1
     LOSING_SCORE = -1

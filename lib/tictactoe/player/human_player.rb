@@ -1,16 +1,13 @@
 module TicTacToe
   class HumanPlayer
-    attr_reader :name
+    attr_reader :name, :value
     
     def initialize(options)
       @name = options[:name]
-      @output = options[:output]
-      @input = options[:input]
+      @value = options[:value]
+      @output = options[:output] || STDOUT
+      @input = options[:input] || STDIN
     end    
-    
-    def to_sym
-      :human_player
-    end
     
     def move
       move = nil

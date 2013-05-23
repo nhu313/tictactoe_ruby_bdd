@@ -19,18 +19,18 @@ describe TicTacToe::ComputerPlayer do
   
   context "move" do
     context "when there is only one position left" do    
-      it "returns move with score of 1 when it's a winning move" do
+      it "returns move when it's a winning move" do
         mark((1...@board.size**2), @player_mark)
         @player.move.should == 0
       end
   
-      it "returns the move with score of 0 when it's a tied" do
+      it "returns the move when it's a tied" do
         mark([0, 2, 5, 6], @player_mark)
         mark([1, 3, 4, 8], @opponent_mark)
         @player.move.should == 7
       end
   
-      it "returns the move with score of -1 when opponent wins" do
+      it "returns the move when opponent wins" do
         mark((0...@board.size**2 - 1).to_a, @opponent_mark)
         @player.move.should == 8
       end
