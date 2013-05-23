@@ -1,22 +1,17 @@
 require 'tictactoe/game'
-require 'tictactoe/player/player'
+require 'tictactoe/player/human_player'
 
 describe TicTacToe::Game do
   attr_reader :game, :board, :ui, :win_determiner, :player
   
   before(:each) do
-    @board = mock().as_null_object
-    
+    @board = mock().as_null_object    
     @ui = mock().as_null_object
     # @ui.should_receive(:play_again?).and_return(false)
     
     @win_determiner = mock().as_null_object
-    
     @game = TicTacToe::Game.new(@board, @ui, @win_determiner)
-    
-    @player_strategy = mock().as_null_object
-    @player = TicTacToe::Player.new("player1", "X", @player_strategy)
-    
+    @player = TicTacToe::HumanPlayer.new(Hash[:name => "player", :input => StringIO.new("4"), :output => StringIO.new])    
     @game.player2 = @game.player1 = @player
   end
   
@@ -27,8 +22,7 @@ describe TicTacToe::Game do
     end    
   end
   
-  describe "play game" do
-    
+  describe "play game" do    
     it "display board" do
       ui.should_receive(:display_board)
       game.start
@@ -42,20 +36,20 @@ describe TicTacToe::Game do
     it "mark the board with user input" do
       move = 7
       @player.should_receive(:move).and_return(move)
-      board.should_receive("mark").with(move, player.value)
+      board.should_receive("mark").with(move, player.to_sym)
       game.start
     end
     
     it "asks for user move again if the player did not win" do
       @player.should_receive(:move).exactly(2)
       win_determiner.should_receive(:tied?).at_least(1).times.and_return(false)
-      win_determiner.should_receive(:win?).with(player.value).and_return(false, true)
+      win_determiner.should_receive(:win?).with(player.to_sym).and_return(false, true)
       game.start
     end
     
     it "asks for user move again if user did not win and the board is not filled" do
       @player.should_receive(:move).exactly(2)
-      win_determiner.should_receive(:win?).at_least(:once).with(player.value).and_return(false)
+      win_determiner.should_receive(:win?).at_least(:once).with(player.to_sym).and_return(false)
       win_determiner.should_receive(:tied?).at_least(1).times.and_return(false, true)
       game.start
     end 
@@ -68,13 +62,13 @@ describe TicTacToe::Game do
     end
     
     it "notifies user when player wins" do
-      win_determiner.should_receive(:win?).with(player.value).and_return(true)
-      ui.should_receive(:display_winner).with("player1")
+      win_determiner.should_receive(:win?).with(player.to_sym).and_return(true)
+      ui.should_receive(:display_winner).with("player")
       game.start      
     end
     
     it "notifies user when it's a tied game" do
-      win_determiner.should_receive(:win?).at_least(2).times.with(player.value).and_return(false)
+      win_determiner.should_receive(:win?).at_least(2).times.with(player.to_sym).and_return(false)
       win_determiner.should_receive(:tied?).at_least(1).times.and_return(true)
       ui.should_receive(:display_tied_game)
       game.start

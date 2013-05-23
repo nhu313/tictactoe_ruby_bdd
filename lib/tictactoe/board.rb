@@ -1,18 +1,30 @@
 module TicTacToe
+  class SquareNotAvailableError < StandardError 
+  end
+  
+  
   class Board    
     attr_reader :squares, :size
     
     def initialize(size = 3)
       @size = size
-      @squares = (0...@size**2).to_a
+      reset
     end
 
-    def mark(move, value) #player?
-      squares[move] = value
+    def mark(move, value)
+      if square_available?(move)
+        squares[move] = value
+      else
+        raise SquareNotAvailableError
+      end
     end
     
-    def clear
-      reset_squares
+    def clear(position)
+      squares[position] = nil
+    end
+    
+    def reset
+			@squares = Array.new(size**2)
     end
     
     def filled?
@@ -26,12 +38,14 @@ module TicTacToe
     end
     
     def columns
+      # puts("enter column")
       result = []
       (0...size).each do |col|
         result << squares.values_at(* squares.each_index.select do |i| 
           (col - i) % 3 == 0
         end)  
       end
+      # puts("found column #{result}")
       result
     end
     
@@ -49,19 +63,9 @@ module TicTacToe
       result
     end
     
-    def clone
-      duplicate_board = TicTacToe::Board.new(@size)
-      duplicate_board.squares = @squares.clone
-      duplicate_board
-    end
-    
     attr_writer :squares
     
-    private
-    def reset_squares
-			@squares = (0...size**2).to_a
-    end
-    
+    private    
 		def square_available?(position)
 			return false if out_of_range?(position)
 			return false if marked?(position)
@@ -76,7 +80,7 @@ module TicTacToe
 		end
 
 		def marked?(position)
-			squares[position].is_a? String
+			squares[position]
 		end
     
     def diagonal_from_top_right

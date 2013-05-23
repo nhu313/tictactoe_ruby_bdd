@@ -1,4 +1,5 @@
 require 'tictactoe/ui/console'
+require 'tictactoe/board'
 
 describe TicTacToe::Console do
   before(:each) do

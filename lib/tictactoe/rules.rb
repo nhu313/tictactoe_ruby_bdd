@@ -4,25 +4,24 @@ module TicTacToe
       @board = board
     end
     
-    def win?(player_value)
-      winning_combinations.any? do |squares|
-        player_marked_all_squares?(squares, player_value)
+    def win?(player)
+      square_sets.any? do |squares|
+        marked_all_squares?(squares, player)
       end
     end
     
-    def tied?(player_value)
-      return false if win?(player_value)
+    def tied?(player)
+      return false if win?(player)
       @board.filled?
     end
   
     private
-
-    def winning_combinations
+    def square_sets
       @board.rows + @board.columns + @board.diagonals
     end
     
-    def player_marked_all_squares?(squares, player_value)
-      squares.all? {|square| square == player_value }
+    def marked_all_squares?(squares, player)
+      squares.all? {|square| square == player}
     end 
   end
 end

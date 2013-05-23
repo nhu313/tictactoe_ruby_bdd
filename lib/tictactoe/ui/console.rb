@@ -26,7 +26,7 @@ module TicTacToe
     def build_board
       result = ""
       @board.squares.each_with_index do |value, index|
-         result << "| #{value} "
+         result << "| #{value || index} "
          result << "|\n" if (index + 1) % @board.size == 0
       end
       result      
