@@ -36,7 +36,7 @@ describe TicTacToe::ComputerPlayer do
       end
     end
 
-    context "minimax when there are two positions left" do
+    context "when there are two positions left" do
       it "returns losing scores when the two moves are losing moves" do
         mark((2...@board.size**2).to_a, @opponent_mark)
         @player.move.should == 0
@@ -70,6 +70,26 @@ describe TicTacToe::ComputerPlayer do
         mark([0, 5, 6, 7], @opponent_mark)
         @player.move.should == 8
       end 
+      
+      context "winning move appear later in the board" do
+        it "returns win move when winning move is later than losing move" do
+          mark([1, 2, 5, 7], @player_mark)
+          mark([0, 3, 4], @opponent_mark)
+          @player.move.should == 8
+        end
+      
+        it "returns winning move when winning move is later than tie move" do
+          mark([0, 2, 4, 5], @player_mark)
+          mark([1, 3, 6], @opponent_mark)
+          @player.move.should == 8
+        end
+        
+        it "returns tied move when there are losing and tie moves" do
+          mark([2, 3, 4], @player_mark)
+          mark([0, 5, 6, 7], @opponent_mark)
+          @player.move.should == 8
+        end
+      end      
     end
 
     context "when there are three moves left" do
@@ -80,17 +100,17 @@ describe TicTacToe::ComputerPlayer do
       end
     
       it "chooses a tie move when there are only losing and tie moves" do
-        mark([1, 3, 5], @player_mark)
-        mark([0, 2, 4], @opponent_mark)
-        @player.move.should == 6
+        mark([1, 4], @player_mark)
+        mark([0, 2, 5, 7], @opponent_mark)
+        @player.move.should == 8
       end
     end
     
     context "when there are 4 moves left" do
       it "chooses a winning move when one is available" do
-        mark([4, 8], @player_mark)
+        mark([0, 4], @player_mark)
         mark([1, 2, 6], @opponent_mark)
-        @player.move.should == 0
+        @player.move.should == 8
       end
       
       it "chooses a move that would create 2 winning moves" do
@@ -98,10 +118,20 @@ describe TicTacToe::ComputerPlayer do
         mark([1, 3, 5], @opponent_mark)
         @player.move.should == 4
       end
-      
     end
   end
 
+  it "chooses the winning move when available" do
+    mark([1, 4], @player_mark)
+    mark([0], @opponent_mark)
+    @player.move.should == 7
+  end
+  
+  xit "chooses a blocking move when there is no winning move" do
+    mark([1], @player)
+    mark([0, 4], @opponent_mark)
+    @player.move.should == 8
+  end
 
   def move_node(move, score)
     TicTacToe::Move.new(move, score)
@@ -110,4 +140,7 @@ describe TicTacToe::ComputerPlayer do
   def mark(squares, value)
     squares.each {|i| @board.mark(i, value)}
   end
+  
+  
+  
 end

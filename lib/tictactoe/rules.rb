@@ -14,7 +14,7 @@ module TicTacToe
       return false if win?(player)
       @board.filled?
     end
-  
+      
     private
     def square_sets
       @board.rows + @board.columns + @board.diagonals
