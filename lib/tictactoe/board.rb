@@ -1,8 +1,7 @@
 module TicTacToe
   class SquareNotAvailableError < StandardError 
   end
-  
-  
+    
   class Board    
     attr_reader :squares, :size
     

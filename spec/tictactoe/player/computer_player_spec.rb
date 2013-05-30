@@ -127,8 +127,14 @@ describe TicTacToe::ComputerPlayer do
     @player.move.should == 7
   end
   
-  xit "chooses a blocking move when there is no winning move" do
-    mark([1], @player)
+  it "chooses the winning move when available" do
+    mark([0, 4], @player_mark)
+    mark([1, 2], @opponent_mark)
+    @player.move.should == 8
+  end
+  
+  it "chooses a blocking move when there is no winning move" do
+    mark([2], @player_mark)
     mark([0, 4], @opponent_mark)
     @player.move.should == 8
   end
