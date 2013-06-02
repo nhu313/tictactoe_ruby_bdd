@@ -7,11 +7,11 @@ describe TicTacToe::ComputerPlayer do
   before(:each) do
     @board = TicTacToe::Board.new(3)
     @output = StringIO.new
-    rules = TicTacToe::Rules.new(@board)
+    @rules = TicTacToe::Rules.new(@board)
     @player_mark = "X"
     @opponent_mark = "O"
     
-    @options = Hash[:output => @output, :board => @board, :rules => rules, 
+    @options = Hash[:output => @output, :board => @board, :rules => @rules, 
                     :player => @player_mark, :opponent => @opponent_mark]
                     
     @player = TicTacToe::ComputerPlayer.new(@options)
@@ -139,6 +139,21 @@ describe TicTacToe::ComputerPlayer do
     @player.move.should == 8
   end
 
+  it "chooses a blocking move when there is no winning move" do
+    mark([2], @player_mark)
+    mark([1, 4], @opponent_mark)
+    @player.move.should == 7
+  end
+
+  it "chooses the middle square when computer is the second player" do
+    mark([0], @opponent_mark)
+    @player.move.should == 4
+  end
+
+  xit "chooses the first corner as the first player" do
+    @player.move.should == 0
+  end
+
   def move_node(move, score)
     TicTacToe::Move.new(move, score)
   end
@@ -146,7 +161,4 @@ describe TicTacToe::ComputerPlayer do
   def mark(squares, value)
     squares.each {|i| @board.mark(i, value)}
   end
-  
-  
-  
 end

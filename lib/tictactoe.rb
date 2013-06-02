@@ -15,12 +15,12 @@ class GameFactory
     game = TicTacToe::Game.new(board, ui, rules)
     
     
-    human_options = Hash[:name => "You", :value => "X"]
+    human_options = Hash[:name => "You", :value => "O"]
     game.player1 = TicTacToe::HumanPlayer.new(human_options)
     
-    computer_options = Hash[:name => "Computer", :player => :computer_player, 
-                            :opponent => :human_player, :board => board, :rules => rules, 
-                            :value => "O"]
+    computer_options = Hash[:name => "Computer", :player => "X", 
+                            :opponent => "O", :board => board, :rules => rules, 
+                            :value => "X"]
     game.player2 = TicTacToe::ComputerPlayer.new(computer_options)
     
     game

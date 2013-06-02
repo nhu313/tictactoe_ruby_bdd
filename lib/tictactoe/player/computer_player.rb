@@ -4,20 +4,20 @@ module TicTacToe
     
     def initialize(options)
       @name = options[:name]
-      @value = options[:value]
       @output = options[:output] || STDOUT
-      @computer = options[:player]
+      @value = @computer = options[:player]
       @opponent = options[:opponent]
       @board = options[:board]
       @rules = options[:rules]
     end
     
     def move
-      @output.puts("Computer is calculating a move, please wait.")
+      @output.puts("Computer is calculating a move. Please wait.")
       # start = Time.now
       move = minimax(@computer)
       move.move
     end
+    
     
     # private
     WINNING_SCORE = 1
@@ -36,11 +36,11 @@ module TicTacToe
           moves << Move.new(move, -child_move.score, child_move.depth += 1)
         end
         @board.clear(move)
-        break if found_best_move?(moves[-1])
+        found_best_move?(moves[-1])
       end
-      max_move(moves)
+      best_move(moves)
     end 
-    
+        
     def found_best_move?(move)
       move.score == WINNING_SCORE and move.depth == 0
     end
@@ -48,9 +48,7 @@ module TicTacToe
     def score(player)
       return WINNING_SCORE if @rules.win?(player)
       return LOSING_SCORE if @rules.win?(opponent(player))
-      return TIE if @rules.tied?(player)
-      return TIE if @rules.tied?(opponent(player))
-      
+      return TIE if @rules.tied?(player)      
       nil    
     end
     
@@ -58,13 +56,15 @@ module TicTacToe
       (player == @computer) ? @opponent : @computer
     end
 
-    def max_move(moves)
+    def best_move(moves)
       sorted_moves = moves.sort{ |a, b| [a.score, a.depth] <=> [b.score, b.depth]}
       sorted_moves.max_by {|m| m.score}
     end
     
-    def winning_move(moves)
-      moves.detect {|m| m.score == WINNING_SCORE}
+    
+    
+    def losing_move?(moves)
+      moves.detect {|m| m.score == LOSING_SCORE}
     end    
   end
   
