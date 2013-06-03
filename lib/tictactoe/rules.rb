@@ -2,9 +2,8 @@ module TicTacToe
   class Rules
     attr_accessor :players
     
-    def initialize(board, players = [])
+    def initialize(board)
       @board = board
-      @players = players
     end
 
     def game_over?
@@ -18,7 +17,7 @@ module TicTacToe
     end
     
     def winner
-      @players.detect {|p| win?(p)}
+      @board.unique_marked_values.detect {|p| win?(p)}
     end
 
     private

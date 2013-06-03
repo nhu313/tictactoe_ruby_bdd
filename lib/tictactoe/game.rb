@@ -16,7 +16,6 @@ module TicTacToe
       play
       @ui.display_board
       result
-      # start if @ui.play_again?
     end
     
     private    

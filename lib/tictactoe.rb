@@ -23,10 +23,7 @@ class GameFactory
     game = TicTacToe::Game.new(board, ui, rules)
     game.player1 = human
     game.player2 = computer
-    
-    rules.players = [human, computer]
-    
-    
+        
     game
   end
   

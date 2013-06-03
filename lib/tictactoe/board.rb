@@ -3,16 +3,22 @@ module TicTacToe
   end
     
   class Board    
-    attr_reader :squares, :size
+    attr_reader :squares, :size, :unique_marked_values
     
     def initialize(size = 3)
       @size = size
       reset
     end
+    
+    def reset
+			@squares = Array.new(size**2)
+      @unique_marked_values = []      
+    end
 
     def mark(move, value)
       if move_available?(move)
         squares[move] = value
+        @unique_marked_values << value if !@unique_marked_values.include?(value)
       else
         raise MoveNotAvailableError
       end
@@ -20,10 +26,6 @@ module TicTacToe
     
     def clear(position)
       squares[position] = nil
-    end
-    
-    def reset
-			@squares = Array.new(size**2)
     end
     
     def filled?
@@ -58,7 +60,7 @@ module TicTacToe
         result << position if move_available?(position)
       end
       result
-    end
+    end    
     
     private    
 		def move_available?(position)

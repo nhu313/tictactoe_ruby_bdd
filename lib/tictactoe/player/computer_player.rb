@@ -7,7 +7,7 @@ module TicTacToe
       @output = options[:output] || STDOUT
       @opponent = options[:opponent]
       @board = options[:board]
-      @rules = options[:rules]
+      @rules = options[:rules] #hard dependency
     end
     
     def move

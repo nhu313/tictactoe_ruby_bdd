@@ -136,6 +136,26 @@ describe TicTacToe::Board do
     end
   end
   
+  describe "unique marks" do
+    it "returns user marks when user marks the board" do
+      @board.mark(4, @player)
+      @board.unique_marked_values.should == [@player]
+    end
+    
+    it "returns two marks when two user marks the board" do
+      @board.mark(4, "X")
+      @board.mark(0, "O")
+      @board.unique_marked_values.should == ["X", "O"]
+    end
+    
+    it "returns one mark even though user marks the board twice" do
+      @board.mark(4, @player)
+      @board.mark(0, @player)
+      @board.unique_marked_values.should == [@player]
+    end
+    
+  end
+  
   def mark_all_squares
     (0...@size**2).each {|position| @board.mark(position, @player)}
   end

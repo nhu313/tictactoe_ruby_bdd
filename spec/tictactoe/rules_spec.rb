@@ -8,7 +8,7 @@ describe TicTacToe::Rules do
     @player = "X"
     @opponent = "O"
     @board = TicTacToe::Board.new(3)
-    @rules = TicTacToe::Rules.new(@board, [@player, @opponent])
+    @rules = TicTacToe::Rules.new(@board)
   end
   
   context "game is not over" do
@@ -22,7 +22,7 @@ describe TicTacToe::Rules do
     end
     
     it "when there is no winner and there is one square left" do
-      mark((1...@board.size**2).to_a, "i")
+      (1...@board.size**2).each {|i| @board.mark(i, i)}
       @rules.should_not be_game_over
     end
   end
@@ -151,7 +151,7 @@ describe TicTacToe::Rules do
     end
     
     it "is nil when there is a tied" do
-      (@board.size**2).times {|i| @board.mark(i, "i")}
+      (@board.size**2).times {|i| @board.mark(i, i)}
       @rules.winner.should be_nil
     end
   end
