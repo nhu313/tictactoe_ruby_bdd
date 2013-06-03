@@ -1,3 +1,4 @@
+require 'tictactoe/spec_helper'
 require 'tictactoe/game'
 require 'tictactoe/board'
 

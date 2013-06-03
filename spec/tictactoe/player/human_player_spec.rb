@@ -1,3 +1,4 @@
+require 'tictactoe/spec_helper'
 require 'tictactoe/player/human_player'
 
 describe TicTacToe::HumanPlayer do

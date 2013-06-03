@@ -1,3 +1,4 @@
+require 'tictactoe/spec_helper'
 require 'tictactoe/player/human_player'
 require 'tictactoe/player/computer_player'
 require 'tictactoe/board'

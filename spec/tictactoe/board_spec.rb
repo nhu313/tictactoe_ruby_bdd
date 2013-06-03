@@ -1,3 +1,4 @@
+require 'tictactoe/spec_helper'
 require 'tictactoe/board'
 
 describe TicTacToe::Board do  
