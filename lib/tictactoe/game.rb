@@ -3,10 +3,10 @@ module TicTacToe
     
     attr_writer :player1, :player2
     
-    def initialize(board, ui, win_determiner)
+    def initialize(board, ui, rules)
       @board = board
       @ui = ui
-      @win_determiner = win_determiner
+      @rules = rules
     end
     
     def start
@@ -22,23 +22,18 @@ module TicTacToe
       change_player
       @ui.display_board
       move = @current_player.move
-      @board.mark(move, @current_player.value)
-      play until over?
+      @board.mark(move, @current_player)
+      play until @rules.game_over?
     end
     
     def change_player
       @current_player = (@current_player == @player1) ? @player2 : @player1      
     end
     
-    def over?
-      return true if @win_determiner.win?(@current_player.value)      
-      return true if @win_determiner.tied?(@current_player.value)
-      false
-    end
-    
     def result
-      if @win_determiner.win?(@current_player.value) 
-        @ui.display_winner(@current_player.name) 
+      winner = @rules.winner
+      if winner 
+        @ui.display_winner(winner.name) 
       else
         @ui.display_tied_game 
       end

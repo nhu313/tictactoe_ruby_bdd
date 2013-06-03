@@ -1,27 +1,35 @@
 module TicTacToe
   class Rules
-    def initialize(board)
+    attr_accessor :players
+    
+    def initialize(board, players = [])
       @board = board
+      @players = players
+    end
+
+    def game_over?
+      return true if winner
+      return true if @board.filled?
+      false
     end
     
+    def tied?
+      !winner && @board.filled?
+    end
+    
+    def winner
+      @players.detect {|p| win?(p)}
+    end
+
+    private
     def win?(player)
       square_sets.any? do |squares|
-        marked_all_squares?(squares, player)
+        squares.all? {|square| square == player}
       end
     end
     
-    def tied?(player)
-      return false if win?(player)
-      @board.filled?
-    end
-      
-    private
     def square_sets
       @board.rows + @board.columns + @board.diagonals
     end
-    
-    def marked_all_squares?(squares, player)
-      squares.all? {|square| square == player}
-    end 
   end
 end

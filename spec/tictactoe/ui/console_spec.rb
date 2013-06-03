@@ -6,7 +6,7 @@ describe TicTacToe::Console do
     @size = 2
     @output = StringIO.new
     @board = TicTacToe::Board.new(2)
-    @console = TicTacToe::Console.new(@output, @board)
+    @console = TicTacToe::Console.new(@output, @board, "X")
   end
   
   it "displays welcome message" do
@@ -37,7 +37,7 @@ describe TicTacToe::Console do
     
     it "displays a 3x3 board" do
       @board = TicTacToe::Board.new(3)
-      @console = TicTacToe::Console.new(@output, @board)
+      @console = TicTacToe::Console.new(@output, @board, "X")
       expected_display = "| 0 | 1 | 2 |\n| 3 | 4 | 5 |\n| 6 | 7 | 8 |\n"
       @output.should_receive(:puts).with(expected_display)
       @console.display_board

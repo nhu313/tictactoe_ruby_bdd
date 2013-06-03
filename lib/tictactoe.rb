@@ -10,18 +10,22 @@ class GameFactory
   
   def self.computer_user_game
     board = TicTacToe::Board.new
-    ui = TicTacToe::Console.new(board)
     rules = TicTacToe::Rules.new(board)
-    game = TicTacToe::Game.new(board, ui, rules)
-    
     
     human_options = Hash[:name => "You", :value => "O"]
-    game.player1 = TicTacToe::HumanPlayer.new(human_options)
+    human = TicTacToe::HumanPlayer.new(human_options)
     
-    computer_options = Hash[:name => "Computer", :player => "X", 
-                            :opponent => "O", :board => board, :rules => rules, 
-                            :value => "X"]
-    game.player2 = TicTacToe::ComputerPlayer.new(computer_options)
+    computer_options = Hash[:name => "Computer", :opponent => human, 
+                            :board => board, :rules => rules]
+    computer = TicTacToe::ComputerPlayer.new(computer_options)
+    
+    ui = TicTacToe::Console.new(board, human)
+    game = TicTacToe::Game.new(board, ui, rules)
+    game.player1 = human
+    game.player2 = computer
+    
+    rules.players = [human, computer]
+    
     
     game
   end
