@@ -1,13 +1,13 @@
 require 'tictactoe/game'
-require 'tictactoe/player/human_player'
+require 'tictactoe/board'
 
 describe TicTacToe::Game do  
   before(:each) do
-    @board = mock().as_null_object    
-    @ui = mock().as_null_object
+    @board = mock.as_null_object    
+    @ui = mock.as_null_object
     # @ui.should_receive(:play_again?).and_return(false)
     
-    @rules = mock().as_null_object
+    @rules = mock.as_null_object
     @game = TicTacToe::Game.new(@board, @ui, @rules)
     @player = mock().as_null_object    
     @game.player2 = @game.player1 = @player
@@ -34,15 +34,16 @@ describe TicTacToe::Game do
     it "mark the board with user input" do
       move = 7
       @player.should_receive(:move).and_return(move)
-      @board.should_receive("mark").with(move, @player)
+      @board.should_receive(:mark).with(move, @player)
       @game.start
     end
     
-    it "asks for user move again if the player did not win" do
-      @player.should_receive(:move).exactly(2)
-      @rules.should_receive(:game_over?).and_return(false, true)
+    it "asks for user move again if user marks a move that is not available" do
+      move = 7
+      @player.should_receive(:move).exactly(2).times.and_return(move)
+      @board.should_receive(:mark).with(move, @player).and_raise(TicTacToe::MoveNotAvailableError)
       @game.start
-    end    
+    end
   end
   
   describe "end game" do
@@ -70,18 +71,19 @@ describe TicTacToe::Game do
     end
   end
   
-  # describe "change player after a move" do
-  #   xit "changes to player 2 after player 1 moves" do
-  #     player2 = TicTacToe::Player.new("player2", "O", nil)
-  #     @game.player2 = player2
-  #     
-  #     @rules.should_receive(:win?).exactly(3).times.with("X", "O", "O").and_return(false, true, true)
-  #     @rules.should_receive(:win?).exactly(1).times.with(player2.value).and_return(true)      
-  #     board.should_receive(:filled?).at_least(:once).and_return(false)
-  #     @game.start
-  #   end
-  #   
-  # end
+  describe "having two players" do
+    before(:each) do
+      @player2 = mock.as_null_object
+      @game.player2 = @player2
+    end
+    
+    it "changes to player 2 after player 1 moves" do
+      @rules.should_receive(:game_over?).and_return(false, true)
+      @player.should_receive(:move).exactly(1).times
+      @player2.should_receive(:move).exactly(1).times
+      @game.start
+    end
+  end
   
   # describe "play again" do
   #   xit "reset the board when user wants to play again" do

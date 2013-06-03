@@ -18,14 +18,14 @@ module TicTacToe
     end
     
     
-    # private
+    private
     WINNING_SCORE = 1
     LOSING_SCORE = -1
     TIE = 0
 
     def minimax(player)
       moves = []
-      available_moves = @board.available_squares
+      available_moves = @board.available_moves
       available_moves.each do |move|
         @board.mark(move, player)
         if @rules.game_over?
@@ -48,7 +48,7 @@ module TicTacToe
       winner = @rules.winner
       return WINNING_SCORE if winner == player
       return LOSING_SCORE if winner == opponent(player)
-      return TIE if @rules.game_over?
+      return TIE if @rules.tied?
       
       nil    
     end

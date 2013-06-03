@@ -1,5 +1,5 @@
 module TicTacToe
-  class SquareNotAvailableError < StandardError 
+  class MoveNotAvailableError < StandardError 
   end
     
   class Board    
@@ -11,10 +11,10 @@ module TicTacToe
     end
 
     def mark(move, value)
-      if square_available?(move)
+      if move_available?(move)
         squares[move] = value
       else
-        raise SquareNotAvailableError
+        raise MoveNotAvailableError
       end
     end
     
@@ -27,7 +27,7 @@ module TicTacToe
     end
     
     def filled?
-      available_squares.empty?
+      available_moves.empty?
     end
     
     def rows
@@ -37,14 +37,12 @@ module TicTacToe
     end
     
     def columns
-      # puts("enter column")
       result = []
       (0...size).each do |col|
         result << squares.values_at(* squares.each_index.select do |i| 
           (col - i) % 3 == 0
         end)  
       end
-      # puts("found column #{result}")
       result
     end
     
@@ -54,18 +52,16 @@ module TicTacToe
       [left_diagonal, right_diagonal]
     end
     
-    def available_squares
+    def available_moves
       result = []
       (0...squares.size).each do |position|
-        result << position if square_available?(position)
+        result << position if move_available?(position)
       end
       result
     end
     
-    attr_writer :squares
-    
     private    
-		def square_available?(position)
+		def move_available?(position)
 			return false if out_of_range?(position)
 			return false if marked?(position)
 

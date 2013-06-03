@@ -1,3 +1,5 @@
+require 'tictactoe/board'
+
 module TicTacToe
   class Game
     
@@ -19,11 +21,19 @@ module TicTacToe
     
     private    
     def play
-      change_player
       @ui.display_board
-      move = @current_player.move
-      @board.mark(move, @current_player)
+      change_player
+      move
       play until @rules.game_over?
+    end
+    
+    def move
+      player_move = @current_player.move
+      begin
+        @board.mark(player_move, @current_player)
+      rescue MoveNotAvailableError
+        move
+      end      
     end
     
     def change_player
