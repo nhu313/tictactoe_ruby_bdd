@@ -1,23 +1,23 @@
+require 'tictactoe/rules'
+
 module TicTacToe
   class ComputerPlayer
-    attr_reader :name, :value
+    attr_reader :name
     
     def initialize(options)
       @name = options[:name]
       @output = options[:output] || STDOUT
       @opponent = options[:opponent]
       @board = options[:board]
-      @rules = options[:rules] #hard dependency
+      @rules = TicTacToe::Rules.new(@board)
     end
     
     def move
       @output.puts("Computer is calculating a move. Please wait.")
-      # start = Time.now
       move = minimax(self)
       move.move
     end
-    
-    
+        
     private
     WINNING_SCORE = 1
     LOSING_SCORE = -1
@@ -25,19 +25,22 @@ module TicTacToe
 
     def minimax(player)
       moves = []
-      available_moves = @board.available_moves
-      available_moves.each do |move|
+      @board.available_moves.each do |move|
         @board.mark(move, player)
-        if @rules.game_over?
-          moves << Move.new(move, score(player), 0)
-        else          
-          child_move = minimax(opponent(player))
-          moves << Move.new(move, -child_move.score, child_move.depth += 1)
-        end 
+        moves << player_move(player, move)
         @board.clear(move)
         found_best_move?(moves[-1])
       end
       best_move(moves)
+    end
+    
+    def player_move(player, move)
+      if @rules.game_over?
+        PlayerMove.new(move, score(player), 0)
+      else          
+        child_move = minimax(opponent(player))
+        PlayerMove.new(move, -child_move.score, child_move.depth += 1)
+      end
     end
             
     def found_best_move?(move)
@@ -63,5 +66,5 @@ module TicTacToe
     end
   end
   
-  Move = Struct.new(:move, :score, :depth)
+  PlayerMove = Struct.new(:move, :score, :depth)
 end

@@ -8,14 +8,12 @@ describe TicTacToe::ComputerPlayer do
 
   before(:each) do
     @board = TicTacToe::Board.new(3)
-    @output = StringIO.new
-    @rules = TicTacToe::Rules.new(@board)
-    
+    @output = StringIO.new 
+
     @opponent = TicTacToe::HumanPlayer.new(Hash.new)
     
     @options = Hash[:output => @output, :board => @board, :rules => @rules, :opponent => @opponent]
     @computer = TicTacToe::ComputerPlayer.new(@options)
-    @rules.players = [@computer, @opponent]
   end
   
   context "move" do

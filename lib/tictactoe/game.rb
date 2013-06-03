@@ -1,11 +1,11 @@
-require 'tictactoe/board'
+require 'tictactoe/rules'
 
 module TicTacToe
   class Game
     
     attr_writer :player1, :player2
     
-    def initialize(board, ui, rules)
+    def initialize(board, ui, rules=TicTacToe::Rules.new(board))
       @board = board
       @ui = ui
       @rules = rules
@@ -22,16 +22,16 @@ module TicTacToe
     def play
       @ui.display_board
       change_player
-      move
+      make_move
       play until @rules.game_over?
     end
     
-    def move
+    def make_move
       player_move = @current_player.move
       begin
         @board.mark(player_move, @current_player)
       rescue MoveNotAvailableError
-        move
+        make_move
       end      
     end
     

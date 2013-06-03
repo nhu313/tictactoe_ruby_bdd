@@ -1,7 +1,5 @@
 module TicTacToe
-  class Rules
-    attr_accessor :players
-    
+  class Rules    
     def initialize(board)
       @board = board
     end

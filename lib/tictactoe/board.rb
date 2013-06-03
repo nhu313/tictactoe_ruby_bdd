@@ -24,8 +24,8 @@ module TicTacToe
       end
     end
     
-    def clear(position)
-      squares[position] = nil
+    def clear(move)
+      squares[move] = nil
     end
     
     def filled?
@@ -56,28 +56,28 @@ module TicTacToe
     
     def available_moves
       result = []
-      (0...squares.size).each do |position|
-        result << position if move_available?(position)
+      (0...squares.size).each do |move|
+        result << move if move_available?(move)
       end
       result
     end    
     
     private    
-		def move_available?(position)
-			return false if out_of_range?(position)
-			return false if marked?(position)
+		def move_available?(move)
+			return false if out_of_range?(move)
+			return false if marked?(move)
 
 			true
 		end
         
-		def out_of_range?(position)
-			return true if position < 0
-			return true if position >= squares.size
+		def out_of_range?(move)
+			return true if move < 0
+			return true if move >= squares.size
 			return false
 		end
 
-		def marked?(position)
-			squares[position]
+		def marked?(move)
+			squares[move]
 		end
     
     def diagonal_from_top_right
