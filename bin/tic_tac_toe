@@ -3,4 +3,4 @@ $LOAD_PATH << File.expand_path('../../lib', __FILE__)
 require 'tic_tac_toe'
 
 game = TicTacToe::GameFactory.computer_user_game
-game.start    
+game.start
