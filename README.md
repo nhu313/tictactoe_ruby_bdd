@@ -10,7 +10,7 @@ rake play
 The test files live in spec/tic_tac_toe.
 
 To run all the test:
-rake
+>rake
 
 To run the slow test (i.e. computer player):
 rake slow_test
