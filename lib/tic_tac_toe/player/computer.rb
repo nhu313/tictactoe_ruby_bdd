@@ -1,4 +1,4 @@
-require 'tictactoe/rules'
+require 'tic_tac_toe/rules'
 
 module TicTacToe
   module Player

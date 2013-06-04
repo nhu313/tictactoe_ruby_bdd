@@ -1,9 +1,9 @@
-require 'tictactoe/game'
-require 'tictactoe/board'
-require 'tictactoe/rules'
-require 'tictactoe/ui/console'
-require 'tictactoe/player/human'
-require 'tictactoe/player/computer'
+require 'tic_tac_toe/game'
+require 'tic_tac_toe/board'
+require 'tic_tac_toe/rules'
+require 'tic_tac_toe/ui/console'
+require 'tic_tac_toe/player/human'
+require 'tic_tac_toe/player/computer'
 
 module TicTacToe
 class GameFactory

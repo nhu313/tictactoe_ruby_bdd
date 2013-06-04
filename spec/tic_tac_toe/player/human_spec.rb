@@ -1,5 +1,5 @@
-require 'tictactoe/spec_helper'
-require 'tictactoe/player/human'
+require 'tic_tac_toe/spec_helper'
+require 'tic_tac_toe/player/human'
 
 describe TicTacToe::Player::Human do
 

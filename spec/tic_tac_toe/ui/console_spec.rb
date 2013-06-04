@@ -1,5 +1,5 @@
-require 'tictactoe/ui/console'
-require 'tictactoe/board'
+require 'tic_tac_toe/ui/console'
+require 'tic_tac_toe/board'
 
 describe TicTacToe::Console do
   before(:each) do

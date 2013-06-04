@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/board.rb": [
+      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tic_tac_toe/board.rb": [
         1,
         1,
         null,
@@ -97,7 +97,7 @@
         null,
         null
       ],
-      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/game.rb": [
+      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tic_tac_toe/game.rb": [
         1,
         null,
         1,
@@ -151,7 +151,7 @@
         null,
         null
       ],
-      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/rules.rb": [
+      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tic_tac_toe/rules.rb": [
         1,
         1,
         1,
@@ -185,7 +185,7 @@
         null,
         null
       ],
-      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/player/human.rb": [
+      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tic_tac_toe/player/human.rb": [
         1,
         1,
         1,
@@ -215,7 +215,7 @@
         null,
         null
       ],
-      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/player/computer.rb": [
+      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tic_tac_toe/player/computer.rb": [
         1,
         null,
         1,
@@ -290,7 +290,7 @@
         null,
         null
       ],
-      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/ui/console.rb": [
+      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tic_tac_toe/ui/console.rb": [
         1,
         1,
         null,
@@ -334,6 +334,6 @@
         null
       ]
     },
-    "timestamp": 1370361736
+    "timestamp": 1370362264
   }
 }

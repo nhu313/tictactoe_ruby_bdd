@@ -1,8 +1,8 @@
-require 'tictactoe/spec_helper'
-require 'tictactoe/player/human'
-require 'tictactoe/player/computer'
-require 'tictactoe/board'
-require 'tictactoe/rules'
+require 'tic_tac_toe/spec_helper'
+require 'tic_tac_toe/player/human'
+require 'tic_tac_toe/player/computer'
+require 'tic_tac_toe/board'
+require 'tic_tac_toe/rules'
 
 describe TicTacToe::Player::Computer, :slow_test => true do
 

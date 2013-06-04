@@ -12,5 +12,5 @@ RSpec::Core::RakeTask.new(:test_all) do
 end
 
 task :play do
-  ruby "bin/tictactoe"
+  ruby "bin/tic_tac_toe"
 end
