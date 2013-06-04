@@ -1,34 +1,34 @@
 require 'tictactoe/spec_helper'
-require 'tictactoe/player/human_player'
+require 'tictactoe/player/human'
 
-describe TicTacToe::HumanPlayer do
+describe TicTacToe::Player::Human do
 
   it "gets name" do
     name = "bruce"
-    @player = TicTacToe::HumanPlayer.new(Hash[:name => name])
+    @player = TicTacToe::Player::Human.new(name)
     @player.name.should == name
   end
-  
+
   context "gets user move" do
     before(:each) do
       @input = StringIO.new
       @output = StringIO.new
       @options = Hash[:input => @input, :output => @output]
-      @player = TicTacToe::HumanPlayer.new(@options)
+      @player = TicTacToe::Player::Human.new("user", @input, @output)
     end
-    
-    it "prompts the user for a move" do 
+
+    it "prompts the user for a move" do
       @output.should_receive(:puts).with("Please enter a square number that is not marked: ")
       @input.should_receive(:gets).and_return("3")
       @player.move
     end
-     
+
     it "returns a number when user enters a number" do
       move = "2"
       @input.should_receive(:gets).and_return(move)
       @player.move.should == move.to_i
     end
-    
+
     it "asks for user input again when user enter a character" do
       invalid_move = "a"
       valid_move = "2"
@@ -37,5 +37,5 @@ describe TicTacToe::HumanPlayer do
       @player.move.should == valid_move.to_i
     end
   end
-  
+
 end

@@ -1,5 +1,5 @@
 module TicTacToe
-  class Rules    
+  class Rules
     def initialize(board)
       @board = board
     end
@@ -9,11 +9,11 @@ module TicTacToe
       return true if @board.filled?
       false
     end
-    
+
     def tied?
       !winner && @board.filled?
     end
-    
+
     def winner
       @board.unique_marked_values.detect {|p| win?(p)}
     end
@@ -24,7 +24,7 @@ module TicTacToe
         squares.all? {|square| square == player}
       end
     end
-    
+
     def square_sets
       @board.rows + @board.columns + @board.diagonals
     end

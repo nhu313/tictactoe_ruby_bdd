@@ -185,7 +185,8 @@
         null,
         null
       ],
-      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/player/human_player.rb": [
+      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/player/human.rb": [
+        1,
         1,
         1,
         1,
@@ -209,21 +210,24 @@
         null,
         1,
         1,
+        null,
         null,
         null,
         null
       ],
-      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/player/computer_player.rb": [
+      "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/player/computer.rb": [
         1,
         null,
         1,
         1,
         1,
+        1,
         null,
         1,
         21,
         21,
         21,
+        null,
         21,
         21,
         null,
@@ -283,6 +287,7 @@
         null,
         null,
         1,
+        null,
         null
       ],
       "/Users/nhunguyen/Documents/Ruby/tictactoe/lib/tictactoe/ui/console.rb": [
@@ -329,6 +334,6 @@
         null
       ]
     },
-    "timestamp": 1370296758
+    "timestamp": 1370361736
   }
 }
