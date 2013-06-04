@@ -5,10 +5,10 @@ RSpec::Core::RakeTask.new(:slow_test) do |t|
 end
 
 RSpec::Core::RakeTask.new(:test) do |t|
-  t.rspec_opts = "--tag ~slow_test"  
+  t.rspec_opts = "--tag ~slow_test"
 end
 
-RSpec::Core::RakeTask.new(:test_all) do
+RSpec::Core::RakeTask.new(:default) do
 end
 
 task :play do
