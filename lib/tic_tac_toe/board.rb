@@ -11,7 +11,7 @@ module TicTacToe
     end
 
     def reset
-			@squares = Array.new(size**2)
+      @squares = Array.new(size**2)
       @unique_marked_values = []
     end
 
@@ -63,22 +63,22 @@ module TicTacToe
     end
 
     private
-		def move_available?(move)
-			return false if out_of_range?(move)
-			return false if marked?(move)
+    def move_available?(move)
+      return false if out_of_range?(move)
+      return false if marked?(move)
 
-			true
-		end
+      true
+    end
 
-		def out_of_range?(move)
-			return true if move < 0
-			return true if move >= squares.size
-			return false
-		end
+    def out_of_range?(move)
+      return true if move < 0
+      return true if move >= squares.size
+      return false
+    end
 
-		def marked?(move)
-			squares[move]
-		end
+    def marked?(move)
+      squares[move]
+    end
 
     def diagonal_from_top_right
       result = squares.values_at(*squares.each_index.select do |i|

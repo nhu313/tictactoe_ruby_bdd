@@ -1,7 +1,7 @@
 require 'tic_tac_toe/spec_helper'
 require 'tic_tac_toe/game'
 require 'tic_tac_toe/board'
-require 'tic_tac_toe/mock_player'
+require 'tic_tac_toe/mock/player'
 
 describe TicTacToe::Game do
   before(:each) do
