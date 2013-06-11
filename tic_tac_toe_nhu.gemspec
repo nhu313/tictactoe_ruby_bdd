@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
-  s.name        = 'nhu_ttt'
-  s.version     = '0.0.0'
-  s.date        = '2013-06-04'
+  s.name        = 'tic_tac_toe_nhu'
+  s.version     = '1.0.0'
+  s.date        = '2013-06-11'
   s.summary     = "Tic Tac Toe"
   s.description = "A simple tic tac toe game with AI"
   s.authors     = ["Nhu Nguyen"]
-  s.email       = 'nnguyen@8thlight.com'
+  s.email       = 'nhu313@gmail.com'
   s.files       = `git ls-files`.split("\n")
-  s.homepage    = 'http://rubygems.org/gems/hola'
+  s.homepage    = 'http://rubygems.org/gems/tic_tac_toe_nhu'
 end
