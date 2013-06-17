@@ -5,10 +5,6 @@ module TicTacToe
 
     attr_writer :player1, :player2
 
-    def initialize
-
-    end
-
     def initialize(board, ui, rules=TicTacToe::Rules.new(board))
       @board = board
       @ui = ui
@@ -33,7 +29,7 @@ module TicTacToe
     def make_move
       player_move = @current_player.move
       begin
-        @board.mark(player_move, @current_player)
+        @board.mark(player_move, @current_player.value)
       rescue MoveNotAvailableError
         make_move
       end
@@ -44,12 +40,18 @@ module TicTacToe
     end
 
     def result
-      winner = @rules.winner
-      if winner
-        @ui.display_winner(winner.name)
+      player = winner(@rules.winner)
+      if player
+        @ui.display_winner(player.name)
       else
         @ui.display_tied_game
       end
+    end
+
+    def winner(winner_value)
+      return nil if !winner_value
+      return @player1 if winner_value == @player1.value
+      @player2
     end
 
   end

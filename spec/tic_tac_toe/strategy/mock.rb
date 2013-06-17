@@ -1,5 +1,5 @@
-class MockPlayer
-  attr_accessor :moves, :name
+class MockStrategy
+  attr_accessor :moves
 
   def initialize(moves = [])
     @moves = moves

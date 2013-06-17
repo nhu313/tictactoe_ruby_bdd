@@ -1,10 +1,8 @@
 module TicTacToe
-  module Player
+  module Strategy
     class Human
-      attr_reader :name
 
-      def initialize(name, input = STDIN, output = STDOUT)
-        @name = name
+      def initialize(input = STDIN, output = STDOUT)
         @input = input
         @output = output
       end

@@ -1,10 +1,9 @@
 module TicTacToe
   class Console
 
-    def initialize(output=STDOUT, board, playerX)
+    def initialize(output=STDOUT, board)
       @output = output
       @board = board
-      @playerX = playerX
     end
 
     def display_welcome_message
@@ -27,15 +26,10 @@ module TicTacToe
     def build_board
       result = ""
       @board.squares.each_with_index do |value, index|
-         result << "| #{player_value(value) || index} "
+         result << "| #{value || index} "
          result << "|\n" if (index + 1) % @board.size == 0
       end
       result
-    end
-
-    def player_value(value)
-      return nil if !value
-      (value == @playerX) ? "X" : "O"
     end
   end
 end

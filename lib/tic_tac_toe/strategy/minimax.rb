@@ -1,22 +1,19 @@
 require 'tic_tac_toe/rules'
 
 module TicTacToe
-  module Player
-    class Computer
-      attr_reader :name
-
-      def initialize(name, board, opponent, output = STDOUT)
-        @name = name
-        @opponent = opponent
+  module Strategy
+    class Minimax
+      def initialize(board, player, opponent, output = STDOUT)
         @board = board
-
+        @player = player
+        @opponent = opponent
         @rules = TicTacToe::Rules.new(@board)
         @output = output
       end
 
       def move
         @output.puts("Computer is calculating a move. Please wait.")
-        move = minimax(self)
+        move = minimax(@player)
         move.move
       end
 
@@ -59,7 +56,7 @@ module TicTacToe
       end
 
       def opponent(player)
-        (player == self) ? @opponent : self
+        (player == @player) ? @opponent : @player
       end
 
       def best_move(moves)

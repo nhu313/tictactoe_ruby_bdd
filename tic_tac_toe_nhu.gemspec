@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'tic_tac_toe_nhu'
-  s.version     = '1.0.0'
+  s.version     = '1.0.1'
   s.date        = '2013-06-11'
   s.summary     = "Tic Tac Toe"
   s.description = "A simple tic tac toe game with AI"
