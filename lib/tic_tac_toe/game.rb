@@ -2,10 +2,10 @@ require 'tic_tac_toe/rules'
 
 module TicTacToe
   class Game
-
+    attr_reader :board
     attr_writer :player1, :player2
 
-    def initialize(board, ui, rules=TicTacToe::Rules.new(board))
+    def initialize(board, ui,rules=TicTacToe::Rules.new(board))
       @board = board
       @ui = ui
       @rules = rules
@@ -13,6 +13,7 @@ module TicTacToe
 
     def start
       @ui.display_welcome_message
+
       play
       @ui.display_board
       result

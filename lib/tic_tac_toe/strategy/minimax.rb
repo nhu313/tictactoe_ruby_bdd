@@ -13,14 +13,29 @@ module TicTacToe
 
       def move
         @output.puts("Computer is calculating a move. Please wait.")
-        move = minimax(@player)
-        move.move
+        if first_move?
+          first_move
+        else
+          move = minimax(@player)
+          move.move
+        end
       end
 
       private
       WINNING_SCORE = 1
       LOSING_SCORE = -1
       TIE = 0
+      MIDDLE_SQUARE = 4
+
+      def first_move?
+        moves_count = @board.number_of_moves
+        moves_count == 0 || moves_count == 1
+      end
+
+      def first_move
+        return MIDDLE_SQUARE if @board.available_moves.include?(MIDDLE_SQUARE)
+        0
+      end
 
       def minimax(player)
         moves = []

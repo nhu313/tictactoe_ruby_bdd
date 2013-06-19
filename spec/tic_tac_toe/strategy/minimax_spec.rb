@@ -146,6 +146,15 @@ describe TicTacToe::Strategy::Minimax, :slow_test => true do
     @strategy.move.should == 4
   end
 
+  it "chooses the first corner of the board when the middle square is taken as a second player" do
+    mark([4], @opponent)
+    @strategy.move.should == 0
+  end
+
+  it "chooses the middle square on the first move" do
+    @strategy.move.should == 4
+  end
+
   def move_node(move, score)
     TicTacToe::Move.new(move, score)
   end

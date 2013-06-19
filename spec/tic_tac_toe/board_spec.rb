@@ -37,6 +37,22 @@ describe TicTacToe::Board do
     end
   end
 
+  context "number of moves made" do
+    it "is 0 when there is no move" do
+      @board.number_of_moves.should == 0
+    end
+
+    it "is 1 after user makes a move" do
+      @board.mark(0, @player)
+      @board.number_of_moves.should == 1
+    end
+
+    it "is 9 when user marks all the squares" do
+      mark_all_squares
+      @board.number_of_moves.should == @size**2
+    end
+  end
+
   it "clears the value" do
     @board.mark(0, @player)
     @board.clear(0)
@@ -60,6 +76,10 @@ describe TicTacToe::Board do
     end
   end
 
+  context "empty?" do
+
+
+  end
 
 	it "board @size is the @size set" do
 		@board.size.should == @size

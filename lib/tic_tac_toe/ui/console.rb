@@ -1,7 +1,10 @@
+require 'tic_tac_toe/game_factory'
+
 module TicTacToe
   class Console
 
-    def initialize(output=STDOUT, board)
+    def initialize(input = STDIN, output=STDOUT, board)
+      @input = input
       @output = output
       @board = board
     end
@@ -22,12 +25,27 @@ module TicTacToe
       @output.puts("#{player_name} win!")
     end
 
+    def game_type
+      @output.puts("Please select a game type.")
+      @output.puts(game_type_list)
+      type = @input.gets
+      type.to_i
+    end
+
     private
     def build_board
       result = ""
       @board.squares.each_with_index do |value, index|
          result << "| #{value || index} "
          result << "|\n" if (index + 1) % @board.size == 0
+      end
+      result
+    end
+
+    def game_type_list
+      result = ""
+      TicTacToe::GameFactory.new.types.each_with_index do |value, index|
+        result << "#{index + 1} - #{value}\n"
       end
       result
     end

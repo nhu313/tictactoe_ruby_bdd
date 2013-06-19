@@ -7,8 +7,9 @@ describe TicTacToe::Console do
   before(:each) do
     @size = 2
     @output = StringIO.new
+    @input = StringIO.new
     @board = TicTacToe::Board.new(2)
-    @console = TicTacToe::Console.new(@output, @board)
+    @console = TicTacToe::Console.new(@input, @output, @board)
   end
 
   it "displays welcome message" do
@@ -39,7 +40,7 @@ describe TicTacToe::Console do
 
     it "displays a 3x3 board" do
       @board = TicTacToe::Board.new(3)
-      @console = TicTacToe::Console.new(@output, @board)
+      @console = TicTacToe::Console.new(@input, @output, @board)
       expected_display = "| 0 | 1 | 2 |\n| 3 | 4 | 5 |\n| 6 | 7 | 8 |\n"
       @output.should_receive(:puts).with(expected_display)
       @console.display_board
@@ -55,5 +56,28 @@ describe TicTacToe::Console do
     player_name = "human"
     @output.should_receive(:puts).with("#{player_name} win!")
     @console.display_winner(player_name)
+  end
+
+  context "reading user input for game type" do
+    it "displays a list of game type" do
+      expected_display = "1 - You vs Computer\n2 - Computer vs You\n3 - You vs Other You"
+      @console.game_type
+      @output.string.should match expected_display
+    end
+
+    it "displays a message asking user to select a game type" do
+      expected_display = "Please select a game type."
+      @console.game_type
+      @output.string.should match expected_display
+    end
+
+    it "returns user input in integer" do
+      @input.string = "1"
+      @console.game_type.should == 1
+    end
+
+    # it "displays a message asking user to enter another type with invalid selection" do
+    #
+    # end
   end
 end

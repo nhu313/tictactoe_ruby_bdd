@@ -13,6 +13,7 @@ module TicTacToe
     def reset
       @squares = Array.new(size**2)
       @unique_marked_values = []
+      @moves_history = []
     end
 
     def mark(move, value)
@@ -30,6 +31,10 @@ module TicTacToe
 
     def filled?
       available_moves.empty?
+    end
+
+    def number_of_moves
+      squares.size - available_moves.size
     end
 
     def rows
