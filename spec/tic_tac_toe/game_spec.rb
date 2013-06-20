@@ -7,90 +7,58 @@ require 'tic_tac_toe/player'
 describe TicTacToe::Game do
   before(:each) do
     @board = TicTacToe::Board.new
-    @ui = mock.as_null_object
-    @rules = mock.as_null_object
+    @player1_strategy = MockStrategy.new
+    @player1 = TicTacToe::Player.new("Todd", "X", @player1_strategy)
 
-    @game = TicTacToe::Game.new(@board, @ui, @rules)
+    @player2_strategy = MockStrategy.new
+    @player2 = TicTacToe::Player.new("Tim", "O", @player2_strategy)
 
-    @strategy_mock = MockStrategy.new
-    @player = TicTacToe::Player.new("Todd", "X", @strategy_mock)
-
-    @game.player2 = @game.player1 = @player
+    @game = TicTacToe::Game.new(@board, @player1, @player2)
   end
 
-  describe "play game" do
-    before(:each) do
-      @strategy_mock.add_move(1)
-    end
-
-    it "displays welcome message when it starts a game" do
-      @ui.should_receive(:display_welcome_message)
-      @game.start
-    end
-
-    it "display board" do
-      @ui.should_receive(:display_board)
-      @game.start
-    end
-
+  context "marking board" do
     it "mark the board with user input" do
-      @game.start
-      @board.unique_marked_values.should include("X")
+      @player1_strategy.add_move(1)
+      @game.move
+      @board.unique_marked_values.should include(@player1.value)
+    end
+
+    it "does not mark the board if user doesn't return an input" do
+      @player1_strategy.add_move(nil)
+      @game.move
+      @board.unique_marked_values.should_not include(@player1.value)
     end
   end
 
-  describe "end game" do
-    before(:each) do
-      @strategy_mock.add_move(1)
+  describe "result message" do
+    it "detects winner is player 1" do
+      @game.result_msg(@player1.value).should match "Todd win!"
     end
 
-    it "displays the board when the game is over" do
-      @ui.should_receive(:display_board).at_least(2)
-      @game.start
+    it "detects winner is player 2" do
+      @game.result_msg(@player2.value).should match "Tim win!"
     end
 
-    it "notifies user when player wins" do
-      @rules.should_receive(:game_over?).and_return(true)
-      @rules.should_receive(:winner).and_return(@player.value)
-      @ui.should_receive(:display_winner).with("Todd")
-      @game.start
-    end
-
-    it "notifies user when it's a tied game" do
-      @rules.should_receive(:game_over?).and_return(true)
-      @rules.should_receive(:winner).and_return(nil)
-      @ui.should_receive(:display_tied_game)
-      @game.start
+    it "is tied when no winner is supplied" do
+      @game.result_msg(nil).should match "It's a tie!"
     end
   end
 
-  describe "when there are two players" do
-    before(:each) do
-      @strategy_mock2 = MockStrategy.new
-      @player2 = TicTacToe::Player.new(nil, nil, @strategy_mock2)
-      @game.player2 = @player2
+  describe "changes player" do
+    it "doesn't change player if player 1 doesn't return a move" do
+      @game.current_player.should == @player1
+      @player1_strategy.add_move(nil)
+
+      @game.move
+      @game.current_player.should == @player1
     end
 
     it "changes to player 2 after player 1 moves" do
-      @strategy_mock.add_move(1)
-      @strategy_mock2.add_move(3)
-      @rules.should_receive(:game_over?).and_return(false, true)
-      @game.start
+      @game.current_player.should == @player1
+      @player1_strategy.add_move(1)
 
-      @strategy_mock.moves.should be_empty
-      @strategy_mock2.moves.should be_empty
+      @game.move
+      @game.current_player.should == @player2
     end
-
-    it "asks for user move again if user marks a move that is not available" do
-      marked_move = 1
-      @strategy_mock.add_move(marked_move)
-      @strategy_mock.add_move(2)
-      @board.mark(marked_move, @player)
-      @rules.should_receive(:game_over?).and_return(true)
-      @game.start
-
-      @strategy_mock.moves.should be_empty
-    end
-
   end
 end

@@ -1,6 +1,6 @@
 module TicTacToe
   class Player
-    attr_reader :name, :value
+    attr_reader :name, :value, :strategy
 
     def initialize(name, value, strategy)
       @name = name

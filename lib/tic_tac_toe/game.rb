@@ -1,59 +1,39 @@
-require 'tic_tac_toe/rules'
-
 module TicTacToe
   class Game
-    attr_reader :board
-    attr_writer :player1, :player2
+    attr_reader :current_player, :board
 
-    def initialize(board, ui,rules=TicTacToe::Rules.new(board))
+    def initialize(board, player1, player2)
       @board = board
-      @ui = ui
-      @rules = rules
+      @current_player = @player1 = player1
+      @player2 = player2
     end
 
-    def start
-      @ui.display_welcome_message
-
-      play
-      @ui.display_board
-      result
-    end
-
-    private
-    def play
-      @ui.display_board
-      change_player
-      make_move
-      play until @rules.game_over?
-    end
-
-    def make_move
+    def move
       player_move = @current_player.move
-      begin
+      if player_move
         @board.mark(player_move, @current_player.value)
-      rescue MoveNotAvailableError
-        make_move
+        change_player
       end
     end
 
+    def result_msg(winner_mark)
+      winner = player(winner_mark)
+      if winner
+        "#{winner.name} win!"
+      else
+        "It's a tie!"
+      end
+    end
+
+    private
     def change_player
       @current_player = (@current_player == @player1) ? @player2 : @player1
     end
 
-    def result
-      player = winner(@rules.winner)
-      if player
-        @ui.display_winner(player.name)
-      else
-        @ui.display_tied_game
-      end
-    end
-
-    def winner(winner_value)
-      return nil if !winner_value
-      return @player1 if winner_value == @player1.value
+    def player(mark)
+      return nil if !mark
+      return @player1 if mark == @player1.value
       @player2
     end
-
   end
 end

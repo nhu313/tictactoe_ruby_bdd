@@ -23,4 +23,10 @@ describe TicTacToe::Player do
     player.move.should == move
   end
 
+  it "gets strategy" do
+    strategy = MockStrategy.new([4])
+    player = TicTacToe::Player.new(nil, nil, strategy)
+    player.strategy.should == strategy
+
+  end
 end

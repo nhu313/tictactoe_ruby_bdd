@@ -7,8 +7,15 @@ describe TicTacToe::GameFactory do
     TicTacToe::GameFactory.new.types.size.should == 3
   end
 
-  it "returns a human vs human game" do
+  it "returns user vs user game" do
 
+  end
+
+  it "returns user vs computer game" do
+
+  end
+
+  it "returns computer vs user game" do
 
   end
 

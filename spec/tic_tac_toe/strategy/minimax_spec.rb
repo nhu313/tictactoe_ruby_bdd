@@ -1,6 +1,5 @@
 require 'tic_tac_toe/spec_helper'
 require 'tic_tac_toe/board'
-# require 'tic_tac_toe/rules'
 require 'tic_tac_toe/strategy/minimax'
 
 describe TicTacToe::Strategy::Minimax, :slow_test => true do

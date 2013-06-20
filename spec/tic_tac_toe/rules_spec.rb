@@ -27,6 +27,29 @@ describe TicTacToe::Rules do
     end
   end
 
+  context "tie" do
+    it "is not a tied when there is no mark on the board" do
+      @rules.should_not be_tied
+    end
+
+    it "is not a tied when there is a winner" do
+      mark([0, 1, 2], @player)
+      @rules.should_not be_tied
+    end
+
+    it "is not tied when there is a winner and the board is filled" do
+      mark([0, 2, 4, 6, 8], @player)
+      mark([1, 3, 5, 7], @opponent)
+      @rules.should_not be_tied
+    end
+
+    it "is tied when there is no winner and the board is filled" do
+      mark([0, 2, 3, 4, 7], @player)
+      mark([1, 5, 6, 8], @opponent)
+      @rules.should be_tied
+    end
+  end
+
   context "game over when there is a winner" do
     it "when player wins horizontally" do
       mark([0, 1, 2], @player)

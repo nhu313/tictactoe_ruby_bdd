@@ -1,6 +1,6 @@
 module TicTacToe
   module Strategy
-    class Human
+    class ConsoleUser
 
       def initialize(input = STDIN, output = STDOUT)
         @input = input

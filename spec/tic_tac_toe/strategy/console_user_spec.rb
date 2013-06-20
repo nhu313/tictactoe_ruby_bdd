@@ -1,13 +1,13 @@
 require 'tic_tac_toe/spec_helper'
-require 'tic_tac_toe/strategy/human'
+require 'tic_tac_toe/strategy/console_user'
 
-describe TicTacToe::Strategy::Human do
+describe TicTacToe::Strategy::ConsoleUser do
 
   context "gets move" do
     before(:each) do
       @input = StringIO.new
       @output = StringIO.new
-      @strategy = TicTacToe::Strategy::Human.new(@input, @output)
+      @strategy = TicTacToe::Strategy::ConsoleUser.new(@input, @output)
     end
 
     it "prompts the user for a move" do

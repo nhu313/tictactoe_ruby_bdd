@@ -3,26 +3,21 @@ require 'tic_tac_toe/game_factory'
 module TicTacToe
   class Console
 
-    def initialize(input = STDIN, output=STDOUT, board)
+    def initialize(input = STDIN, output=STDOUT)
       @input = input
       @output = output
-      @board = board
     end
 
     def display_welcome_message
       @output.puts("Welcome to Tic Tac Toe!")
     end
 
-    def display_board
-      @output.puts(build_board)
+    def display_board(board)
+      @output.puts(build_board(board))
     end
 
-    def display_tied_game
-      @output.puts("It's a tie!")
-    end
-
-    def display_winner(player_name)
-      @output.puts("#{player_name} win!")
+    def display(message)
+      @output.puts(message)
     end
 
     def game_type
@@ -33,11 +28,11 @@ module TicTacToe
     end
 
     private
-    def build_board
+    def build_board(board)
       result = ""
-      @board.squares.each_with_index do |value, index|
+      board.squares.each_with_index do |value, index|
          result << "| #{value || index} "
-         result << "|\n" if (index + 1) % @board.size == 0
+         result << "|\n" if (index + 1) % board.size == 0
       end
       result
     end
