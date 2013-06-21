@@ -3,16 +3,14 @@ require 'tic_tac_toe/rules'
 module TicTacToe
   module Strategy
     class Minimax
-      def initialize(board, player, opponent, output = STDOUT)
+      def initialize(board, player, opponent)
         @board = board
         @player = player
         @opponent = opponent
         @rules = TicTacToe::Rules.new(@board)
-        @output = output
       end
 
       def move
-        @output.puts("Computer is calculating a move. Please wait.")
         if first_move?
           first_move
         else

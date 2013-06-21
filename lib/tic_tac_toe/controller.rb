@@ -1,6 +1,7 @@
 require 'tic_tac_toe/rules'
 require 'tic_tac_toe/ui/console'
 require 'tic_tac_toe/game_factory'
+require 'tic_tac_toe/board'
 
 module TicTacToe
   class Controller

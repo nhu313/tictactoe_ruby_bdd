@@ -5,7 +5,8 @@ require 'tic_tac_toe/controller'
 describe TicTacToe::Controller do
   before(:each) do
     @ui = mock.as_null_object
-    @controller = TicTacToe::Controller.new(@ui, mock.as_null_object)
+    @game_factory = mock.as_null_object
+    @controller = TicTacToe::Controller.new(@ui, @game_factory)
   end
 
   describe "play game" do
@@ -13,10 +14,10 @@ describe TicTacToe::Controller do
     #   @strategy_mock.add_move(1)
     # end
 
-    it "displays welcome message when it starts a game" do
-      @ui.should_receive(:display_welcome_message)
-      @controller.start
-    end
+    # it "displays welcome message when it starts a game" do
+    #   @ui.should_receive(:display_welcome_message)
+    #   @controller.start
+    # end
 
     # it "display board" do
     #   @ui.should_receive(:display_board)

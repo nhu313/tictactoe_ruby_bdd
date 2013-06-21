@@ -6,10 +6,9 @@ describe TicTacToe::Strategy::Minimax, :slow_test => true do
 
   before(:each) do
     @board = TicTacToe::Board.new(3)
-    @output = StringIO.new
     @opponent = "X"
     @computer = "O"
-    @strategy = TicTacToe::Strategy::Minimax.new(@board, @computer, @opponent, @output)
+    @strategy = TicTacToe::Strategy::Minimax.new(@board, @computer, @opponent)
   end
 
   context "move" do

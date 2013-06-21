@@ -55,7 +55,7 @@ describe TicTacToe::Console do
 
   context "reading user input for game type" do
     it "displays a list of game type" do
-      expected_display = "1 - You vs Computer\n2 - Computer vs You\n3 - You vs Other You"
+      expected_display = "1 - You vs Computer\n2 - Computer vs You\n3 - You vs Friend"
       @input.string = "1"
       @console.game_type
       @output.string.should match expected_display

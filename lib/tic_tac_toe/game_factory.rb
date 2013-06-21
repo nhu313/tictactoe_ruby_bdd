@@ -6,12 +6,12 @@ module TicTacToe
   class GameFactory
     attr_reader :player_factory
 
-    def initialize
-      @player_factory = TicTacToe::PlayerFactory.new
+    def initialize(player_factory = TicTacToe::PlayerFactory.new)
+      @player_factory = player_factory
     end
 
     def types
-      ["You vs Computer", "Computer vs You", "You vs Other You"]
+      ["You vs Computer", "Computer vs You", "You vs Friend"]
     end
 
     def create(type_index, board)
@@ -29,20 +29,20 @@ module TicTacToe
 
     private
     def computer_human_game(board)
-      computer = player_factory.computer(board)
-      human = player_factory.console_user
+      computer = @player_factory.computer(board)
+      human = @player_factory.human
       TicTacToe::Game.new(board, computer, human)
     end
 
     def human_computer_game(board)
-      computer = player_factory.computer(board)
-      human = player_factory.console_user
+      computer = @player_factory.computer(board)
+      human = @player_factory.human
       TicTacToe::Game.new(board, human, computer)
     end
 
     def human_human_game(board)
-      human1 = player_factory.console_user
-      human2 = player_factory.console_user("You", "O")
+      human1 = @player_factory.human
+      human2 = @player_factory.human("Friend", "O")
       TicTacToe::Game.new(board, human1, human2)
     end
   end

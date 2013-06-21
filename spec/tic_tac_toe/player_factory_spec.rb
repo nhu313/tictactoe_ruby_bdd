@@ -13,21 +13,21 @@ describe TicTacToe::PlayerFactory do
     it "returns a console player with passed in values" do
       name = "Billy"
       value = "bill"
-      player = @factory.console_user(name, value)
+      player = @factory.human(name, value)
       player.name.should == name
       player.value.should == value
     end
 
     it "strategy is console user" do
-      @factory.console_user.strategy.should be_kind_of(TicTacToe::Strategy::ConsoleUser)
+      @factory.human.strategy.should be_kind_of(TicTacToe::Strategy::ConsoleUser)
     end
 
     it "checks default name" do
-      @factory.console_user.name.should == "User"
+      @factory.human.name.should == "User"
     end
 
     it "checks default value" do
-      @factory.console_user.value.should == "X"
+      @factory.human.value.should == "X"
     end
   end
 

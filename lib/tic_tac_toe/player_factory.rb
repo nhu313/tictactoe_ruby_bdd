@@ -5,7 +5,7 @@ require 'tic_tac_toe/player'
 module TicTacToe
   class PlayerFactory
 
-    def console_user(name = "User", value = "X")
+    def human(name = "User", value = "X")
       TicTacToe::Player.new(name, value, TicTacToe::Strategy::ConsoleUser.new)
     end
 
