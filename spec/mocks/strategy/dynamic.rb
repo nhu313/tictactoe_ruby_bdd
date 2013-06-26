@@ -1,4 +1,4 @@
-class MockStrategy
+class MockDynamicStrategy
   attr_accessor :moves
 
   def initialize(moves = [])

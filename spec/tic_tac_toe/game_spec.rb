@@ -1,64 +1,66 @@
 require 'tic_tac_toe/spec_helper'
 require 'tic_tac_toe/game'
 require 'tic_tac_toe/board'
-require 'tic_tac_toe/strategy/mock'
 require 'tic_tac_toe/player'
+require 'mocks/strategy/dynamic'
 
 describe TicTacToe::Game do
   before(:each) do
     @board = TicTacToe::Board.new
-    @player1_strategy = MockStrategy.new
-    @player1 = TicTacToe::Player.new("Todd", "X", @player1_strategy)
 
-    @player2_strategy = MockStrategy.new
-    @player2 = TicTacToe::Player.new("Tim", "O", @player2_strategy)
+    @todd_strategy = MockDynamicStrategy.new
+    @todd = TicTacToe::Player.new("Todd", "X", @todd_strategy)
 
-    @game = TicTacToe::Game.new(@board, @player1, @player2)
+    @john_strategy = MockDynamicStrategy.new
+    @john = TicTacToe::Player.new("John", "O", @john_strategy)
+
+    @game = TicTacToe::Game.new(@board, @todd, @john)
   end
 
   context "marking board" do
     it "mark the board with user input" do
-      @player1_strategy.add_move(1)
-      @game.move
-      @board.unique_marked_values.should include(@player1.value)
+      @todd_strategy.add_move(1)
+      @game.make_move
+      @board.unique_marked_values.should include(@todd.value)
     end
 
     it "does not mark the board if user doesn't return an input" do
-      @player1_strategy.add_move(nil)
-      @game.move
-      @board.unique_marked_values.should_not include(@player1.value)
+      @todd_strategy.add_move(nil)
+      @game.make_move
+      @board.unique_marked_values.should_not include(@todd.value)
     end
   end
 
-  describe "result message" do
-    it "detects winner is player 1" do
-      @game.result_msg(@player1.value).should match "Todd win!"
+  describe "returning a player based on player value" do
+    it "is Todd when value is X" do
+      @game.player(@todd.value).should == @todd
     end
 
-    it "detects winner is player 2" do
-      @game.result_msg(@player2.value).should match "Tim win!"
+    it "is John when value is O" do
+      @game.player(@john.value).should == @john
     end
 
-    it "is tied when no winner is supplied" do
-      @game.result_msg(nil).should match "It's a tie!"
+    it "is nil when the value doesn't belong to any of the player" do
+      @game.player("s").should be_nil
     end
+
   end
 
   describe "changes player" do
     it "doesn't change player if player 1 doesn't return a move" do
-      @game.current_player.should == @player1
-      @player1_strategy.add_move(nil)
+      @game.current_player.should == @todd
+      @todd_strategy.add_move(nil)
 
-      @game.move
-      @game.current_player.should == @player1
+      @game.make_move
+      @game.current_player.should == @todd
     end
 
     it "changes to player 2 after player 1 moves" do
-      @game.current_player.should == @player1
-      @player1_strategy.add_move(1)
+      @game.current_player.should == @todd
+      @todd_strategy.add_move(1)
 
-      @game.move
-      @game.current_player.should == @player2
+      @game.make_move
+      @game.current_player.should == @john
     end
   end
 end

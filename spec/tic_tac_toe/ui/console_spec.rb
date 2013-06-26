@@ -1,6 +1,7 @@
 require 'tic_tac_toe/spec_helper'
 require 'tic_tac_toe/ui/console'
 require 'tic_tac_toe/board'
+require 'tic_tac_toe/player'
 
 describe TicTacToe::Console do
 
@@ -15,12 +16,6 @@ describe TicTacToe::Console do
   it "displays welcome message" do
     @output.should_receive(:puts).with("Welcome to Tic Tac Toe!")
     @console.display_welcome_message
-  end
-
-  it "displays message" do
-    message = "A humanoid?"
-    @console.display(message)
-    @output.string.should match message
   end
 
   context "displays the board" do
@@ -72,18 +67,27 @@ describe TicTacToe::Console do
       @input.string = "1"
       @console.game_type.should == 1
     end
+  end
 
-    # context "asks for input again when selection is invalid" do
-    #   it "input is a character" do
-    #     @input.stub(:gets).and_return("a", "2")
-    #     @console.game_type.should == 2
-    #   end
-    #   # it "input is greater than the selection by a number"
-    #   xit "input is a repeated number" do
-    #     @input.string = "11 2"
-    #     @console.game_type.should == 2
-    #   end
-    #
-    # end
+  it "displays winner" do
+    player = TicTacToe::Player.new("Todd", "X", nil)
+    @console.display_winner(player)
+    @output.string.should == "Todd(X) win!\n"
+  end
+
+  it "display tied game" do
+    @console.display_tied_game
+    @output.string.should == "It's a tied!\n"
+  end
+
+  it "displays square is not available" do
+    @console.display_square_not_available
+    @output.string.should match "Square is not available. Please enter a different square."
+  end
+
+  it "displays player turns" do
+    player = TicTacToe::Player.new("Todd", "X", nil)
+    @console.display_player_turn(player)
+    @output.string.should == "It's Todd(X) turn.\n"
   end
 end

@@ -16,15 +16,27 @@ module TicTacToe
       @output.puts(build_board(board))
     end
 
-    def display(message)
-      @output.puts(message)
-    end
-
     def game_type
       @output.puts("Please select a game type.")
       @output.puts(game_type_list)
       type = @input.gets
       type.to_i
+    end
+
+    def display_winner(winner)
+      @output.puts("#{winner.name}(#{winner.value}) win!")
+    end
+
+    def display_tied_game
+      @output.puts("It's a tied!")
+    end
+
+    def display_square_not_available
+      @output.puts("Square is not available. Please enter a different square.")
+    end
+
+    def display_player_turn(player)
+      @output.puts("It's #{player.name}(#{player.value}) turn.")
     end
 
     private

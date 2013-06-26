@@ -1,87 +1,110 @@
 require 'tic_tac_toe/spec_helper'
 require 'tic_tac_toe/controller'
-
+require 'tic_tac_toe/player'
+require 'tic_tac_toe/game'
+require 'tic_tac_toe/rules'
+require 'tic_tac_toe/board'
+require 'mocks/game'
+require 'mocks/game_factory'
+require 'mocks/ui/console'
+require 'mocks/strategy/dynamic'
+require 'mocks/rules'
 
 describe TicTacToe::Controller do
   before(:each) do
-    @ui = mock.as_null_object
-    @game_factory = mock.as_null_object
+    @rules = MockRules.new("board")
+    @ui = MockConsole.factory
+    @todd = TicTacToe::Player.new("Todd", "X", MockDynamicStrategy.new([1,2,3]))
+    @game = MockGame.factory current_player: @todd, player: @todd
+    @game_factory = MockGameFactory.factory create: @game
     @controller = TicTacToe::Controller.new(@ui, @game_factory)
+    @controller.rules = @rules
+  end
+
+  context "ensure mock class has the same interface" do
+    it "checks MockGame" do
+      MockGame.should be_substitutable_for(TicTacToe::Game)
+    end
+
+    it "checks console" do
+      MockConsole.should be_substitutable_for(TicTacToe::Console)
+    end
+
+    it "checks game factory" do
+      MockGameFactory.should be_substitutable_for(TicTacToe::GameFactory)
+    end
+
+    it "checks rules" do
+      MockRules.should be_substitutable_for(TicTacToe::Rules)
+    end
+  end
+
+  describe "starts game" do
+    it "displays welcome message" do
+      @controller.start
+      @ui.was told_to(:display_welcome_message)
+    end
+
+    it "asked ui to get game type" do
+      @controller.start
+      @ui.was asked_for(:game_type)
+    end
+
+    it "creates a game based on user input" do
+      @controller.start
+      @game_factory.was told_to(:create)
+    end
   end
 
   describe "play game" do
-    # before(:each) do
-    #   @strategy_mock.add_move(1)
-    # end
+    before(:each) do
+      @rules.will_game_over? false, true
+    end
 
-    # it "displays welcome message when it starts a game" do
-    #   @ui.should_receive(:display_welcome_message)
-    #   @controller.start
-    # end
+    it "display board" do
+      @controller.start
+      @ui.was told_to(:display_board)
+    end
 
-    # it "display board" do
-    #   @ui.should_receive(:display_board)
-    #   @controller.start
-    # end
-    #
-    # it "mark the board with user input" do
-    #   @controller.start
-    #   @board.unique_marked_values.should include("X")
-    # end
+    it "displays whose turn it is" do
+      @controller.start
+      @ui.was told_to(:display_player_turn).with(@todd)
+    end
+
+    it "tells game to make a move" do
+      @rules.will_game_over? false, true
+      @controller.start
+      @game.was told_to(:make_move)
+    end
+
+    it "asks for game move until game is over" do
+      @rules.will_game_over? false, false, false, true
+      @controller.start
+      @game.was told_to(:make_move).times(3)
+    end
+
+    it "displays message when square is not available" do
+      @game.will_make_move TicTacToe::MoveNotAvailableError.new
+      @controller.start
+      @ui.was told_to(:display_square_not_available)
+    end
   end
-  #
-  # describe "end game" do
-  #   before(:each) do
-  #     @strategy_mock.add_move(1)
-  #   end
-  #
-  #   it "displays the board when the game is over" do
-  #     @ui.should_receive(:display_board).at_least(2)
-  #     @controller.start
-  #   end
-  #
-  #   it "notifies user when player wins" do
-  #     @rules.should_receive(:game_over?).and_return(true)
-  #     @rules.should_receive(:winner).and_return(@player.value)
-  #     @ui.should_receive(:display_winner).with("Todd")
-  #     @controller.start
-  #   end
-  #
-  #   it "notifies user when it's a tied game" do
-  #     @rules.should_receive(:game_over?).and_return(true)
-  #     @rules.should_receive(:winner).and_return(nil)
-  #     @ui.should_receive(:display_tied_game)
-  #     @controller.start
-  #   end
-  # end
-  #
-  # describe "when there are two players" do
-  #   before(:each) do
-  #     @strategy_mock2 = MockStrategy.new
-  #     @player2 = TicTacToe::Player.new(nil, nil, @strategy_mock2)
-  #     @game.player2 = @player2
-  #   end
-  #
-  #   it "changes to player 2 after player 1 moves" do
-  #     @strategy_mock.add_move(1)
-  #     @strategy_mock2.add_move(3)
-  #     @rules.should_receive(:game_over?).and_return(false, true)
-  #     @controller.start
-  #
-  #     @strategy_mock.moves.should be_empty
-  #     @strategy_mock2.moves.should be_empty
-  #   end
-  #
-  #   it "asks for user move again if user marks a move that is not available" do
-  #     marked_move = 1
-  #     @strategy_mock.add_move(marked_move)
-  #     @strategy_mock.add_move(2)
-  #     @board.mark(marked_move, @player)
-  #     @rules.should_receive(:game_over?).and_return(true)
-  #     @controller.start
-  #
-  #     @strategy_mock.moves.should be_empty
-  #   end
-  #
-  # end
+
+  describe "end game" do
+    it "displays the board when the game is over" do
+      @controller.start
+      @ui.was told_to(:display_board)
+    end
+
+    it "notifies user when player wins" do
+      @controller.start
+      @ui.was told_to(:display_winner).with(@todd)
+    end
+
+    it "notifies user when it's a tied game" do
+      @game.will_have_player nil
+      @controller.start
+      @ui.was told_to(:display_tied_game)
+    end
+  end
 end

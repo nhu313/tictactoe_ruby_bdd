@@ -5,6 +5,7 @@ require 'tic_tac_toe/board'
 
 module TicTacToe
   class Controller
+    attr_writer :rules
 
     def initialize(ui = TicTacToe::Console.new, game_factory = TicTacToe::GameFactory.new)
       @ui = ui
@@ -16,26 +17,32 @@ module TicTacToe
     def start
       @ui.display_welcome_message
       game_type = @ui.game_type
-      @game = game_factory.create(game_type, @board)
+      @game = @game_factory.create(game_type, @board)
 
-      play
+      play until @rules.game_over?
       @ui.display_board(@board)
-      @ui.display(@game.result_msg(@rules.winner))
+      display_result
     end
 
     private
-    attr_reader :game_factory
-
     def play
       @ui.display_board(@board)
       player = @game.current_player
-      @ui.display("It's #{player.name}(#{player.value}) turn.")
+      @ui.display_player_turn(player)
       begin
-        @game.move
+        @game.make_move
       rescue MoveNotAvailableError
-        @ui.display("Square is not available. Please enter a different square.")
+        @ui.display_square_not_available
       end
-      play until @rules.game_over?
+    end
+
+    def display_result
+      winner = @game.player(@rules.winner)
+      if winner
+        @ui.display_winner(winner)
+      else
+        @ui.display_tied_game
+      end
     end
 
   end

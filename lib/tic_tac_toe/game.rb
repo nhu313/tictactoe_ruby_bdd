@@ -1,3 +1,5 @@
+require 'tic_tac_toe/rules'
+
 module TicTacToe
   class Game
     attr_reader :current_player, :board
@@ -6,9 +8,10 @@ module TicTacToe
       @board = board
       @current_player = @player1 = player1
       @player2 = player2
+      @rules = TicTacToe::Rules.new(@board)
     end
 
-    def move
+    def make_move
       player_move = @current_player.move
       if player_move
         @board.mark(player_move, @current_player.value)
@@ -16,13 +19,9 @@ module TicTacToe
       end
     end
 
-    def result_msg(winner_mark)
-      winner = player(winner_mark)
-      if winner
-        "#{winner.name} win!"
-      else
-        "It's a tie!"
-      end
+    def player(mark)
+      return @player1 if mark == @player1.value
+      return @player2 if mark == @player2.value
     end
 
     private
@@ -30,10 +29,5 @@ module TicTacToe
       @current_player = (@current_player == @player1) ? @player2 : @player1
     end
 
-    def player(mark)
-      return nil if !mark
-      return @player1 if mark == @player1.value
-      @player2
-    end
   end
 end
