@@ -6,5 +6,6 @@ class MockGame
   define_reader :current_player
 
   define :make_move
-  define(:player) {|value|}
+  define :winner
+  define(:over?){true}
 end

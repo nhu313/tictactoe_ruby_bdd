@@ -1,4 +1,3 @@
-require 'tic_tac_toe/rules'
 require 'tic_tac_toe/ui/console'
 require 'tic_tac_toe/game_factory'
 require 'tic_tac_toe/board'
@@ -10,7 +9,6 @@ module TicTacToe
     def initialize(ui = TicTacToe::Console.new, game_factory = TicTacToe::GameFactory.new)
       @ui = ui
       @board = TicTacToe::Board.new
-      @rules = TicTacToe::Rules.new(@board)
       @game_factory = game_factory
     end
 
@@ -19,7 +17,7 @@ module TicTacToe
       game_type = @ui.game_type
       @game = @game_factory.create(game_type, @board)
 
-      play until @rules.game_over?
+      play until @game.over?
       @ui.display_board(@board)
       display_result
     end
@@ -37,7 +35,7 @@ module TicTacToe
     end
 
     def display_result
-      winner = @game.player(@rules.winner)
+      winner = @game.winner
       if winner
         @ui.display_winner(winner)
       else

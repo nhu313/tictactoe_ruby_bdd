@@ -12,13 +12,11 @@ require 'mocks/rules'
 
 describe TicTacToe::Controller do
   before(:each) do
-    @rules = MockRules.new("board")
     @ui = MockConsole.factory
     @todd = TicTacToe::Player.new("Todd", "X", MockDynamicStrategy.new([1,2,3]))
-    @game = MockGame.factory current_player: @todd, player: @todd
+    @game = MockGame.factory current_player: @todd, winner: @todd
     @game_factory = MockGameFactory.factory create: @game
     @controller = TicTacToe::Controller.new(@ui, @game_factory)
-    @controller.rules = @rules
   end
 
   context "ensure mock class has the same interface" do
@@ -32,10 +30,6 @@ describe TicTacToe::Controller do
 
     it "checks game factory" do
       MockGameFactory.should be_substitutable_for(TicTacToe::GameFactory)
-    end
-
-    it "checks rules" do
-      MockRules.should be_substitutable_for(TicTacToe::Rules)
     end
   end
 
@@ -58,7 +52,7 @@ describe TicTacToe::Controller do
 
   describe "play game" do
     before(:each) do
-      @rules.will_game_over? false, true
+      @game.will_over? false, true
     end
 
     it "display board" do
@@ -72,13 +66,13 @@ describe TicTacToe::Controller do
     end
 
     it "tells game to make a move" do
-      @rules.will_game_over? false, true
+      @game.will_over? false, true
       @controller.start
       @game.was told_to(:make_move)
     end
 
     it "asks for game move until game is over" do
-      @rules.will_game_over? false, false, false, true
+      @game.will_over? false, false, false, true
       @controller.start
       @game.was told_to(:make_move).times(3)
     end
@@ -102,7 +96,7 @@ describe TicTacToe::Controller do
     end
 
     it "notifies user when it's a tied game" do
-      @game.will_have_player nil
+      @game.will_have_winner nil
       @controller.start
       @ui.was told_to(:display_tied_game)
     end

@@ -74,6 +74,5 @@ describe TicTacToe::GameFactory do
 
   it "raises an error when the game type doesn't exist" do
     lambda{@game_factory.create(5, @board)}.should raise_error(ArgumentError)
-
   end
 end

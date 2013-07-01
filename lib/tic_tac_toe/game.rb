@@ -19,14 +19,22 @@ module TicTacToe
       end
     end
 
-    def player(mark)
-      return @player1 if mark == @player1.value
-      return @player2 if mark == @player2.value
+    def over?
+      @rules.game_over?
+    end
+
+    def winner
+      player(@rules.winner)
     end
 
     private
     def change_player
       @current_player = (@current_player == @player1) ? @player2 : @player1
+    end
+
+    def player(mark)
+      return @player1 if mark == @player1.value
+      return @player2 if mark == @player2.value
     end
 
   end

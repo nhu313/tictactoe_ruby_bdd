@@ -31,19 +31,20 @@ describe TicTacToe::Game do
     end
   end
 
-  describe "returning a player based on player value" do
+  describe "return winner player based on the value return from rules" do
     it "is Todd when value is X" do
-      @game.player(@todd.value).should == @todd
+      mark_board([0, 1, 2], @todd.value)
+      @game.winner.should == @todd
     end
 
-    it "is John when value is O" do
-      @game.player(@john.value).should == @john
+    it "is John when it is O" do
+      mark_board([0, 1, 2], @john.value)
+      @game.winner.should == @john
     end
 
-    it "is nil when the value doesn't belong to any of the player" do
-      @game.player("s").should be_nil
+    it "is nil when no one wins" do
+      @game.winner.should be_nil
     end
-
   end
 
   describe "changes player" do
@@ -61,6 +62,33 @@ describe TicTacToe::Game do
 
       @game.make_move
       @game.current_player.should == @john
+    end
+  end
+
+  describe "game over" do
+    it "is over when there is a winner" do
+      mark_board([0, 1, 2], @john.value)
+      @game.should be_over
+    end
+
+    it "is over when there is a tied" do
+      mark_board((0...9).to_a, "i")
+      @game.should be_over
+    end
+
+    it "is not over when there is no mark on the board" do
+      @game.should_not be_over
+    end
+
+    it "is not over when there is no winner or a tied" do
+      mark_board([1, 2], @todd.value)
+      @game.should_not be_over
+    end
+  end
+
+  def mark_board(moves, value)
+    moves.each do |m|
+      @board.mark(m, value)
     end
   end
 end
