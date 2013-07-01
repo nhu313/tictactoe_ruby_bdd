@@ -1,5 +1,5 @@
 require 'tic_tac_toe/spec_helper'
-require 'tic_tac_toe/controller'
+require 'tic_tac_toe/main'
 require 'tic_tac_toe/player'
 require 'tic_tac_toe/game'
 require 'tic_tac_toe/rules'
@@ -10,13 +10,13 @@ require 'mocks/ui/console'
 require 'mocks/strategy/dynamic'
 require 'mocks/rules'
 
-describe TicTacToe::Controller do
+describe TicTacToe::Main do
   before(:each) do
     @ui = MockConsole.factory
     @todd = TicTacToe::Player.new("Todd", "X", MockDynamicStrategy.new([1,2,3]))
     @game = MockGame.factory current_player: @todd, winner: @todd
     @game_factory = MockGameFactory.factory create: @game
-    @controller = TicTacToe::Controller.new(@ui, @game_factory)
+    @controller = TicTacToe::Main.new(@ui, @game_factory)
   end
 
   context "ensure mock class has the same interface" do
