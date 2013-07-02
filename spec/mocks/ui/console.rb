@@ -13,3 +13,9 @@ class MockConsole
   define :display_square_not_available
   define(:display_player_turn) {|player|}
 end
+
+describe TicTacToe::Console do
+  it "checks console" do
+    MockConsole.should be_substitutable_for(TicTacToe::Console)
+  end
+end

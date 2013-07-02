@@ -17,10 +17,14 @@ module TicTacToe
     end
 
     def game_type
-      @output.puts("Please select a game type.")
+      @output.puts("Please enter a game type from the list.")
       @output.puts(game_type_list)
       type = @input.gets
-      type.to_i
+      if type =~ /\d/
+        type.to_i
+      else
+        game_type
+      end
     end
 
     def display_winner(winner)
@@ -28,7 +32,7 @@ module TicTacToe
     end
 
     def display_tied_game
-      @output.puts("It's a tied!")
+      @output.puts("It's a tie!")
     end
 
     def display_square_not_available

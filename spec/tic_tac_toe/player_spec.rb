@@ -1,6 +1,6 @@
 require 'tic_tac_toe/spec_helper'
 require 'tic_tac_toe/player'
-require 'tic_tac_toe/strategy/mock'
+require 'mocks/strategy/dynamic'
 
 describe TicTacToe::Player do
 
@@ -18,13 +18,13 @@ describe TicTacToe::Player do
 
   it "gets player's move" do
     move = 4
-    strategy = MockStrategy.new([4])
+    strategy = MockDynamicStrategy.new([4])
     player = TicTacToe::Player.new(nil, nil, strategy)
     player.move.should == move
   end
 
   it "gets strategy" do
-    strategy = MockStrategy.new([4])
+    strategy = MockDynamicStrategy.new([4])
     player = TicTacToe::Player.new(nil, nil, strategy)
     player.strategy.should == strategy
 

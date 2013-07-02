@@ -6,3 +6,9 @@ class MockGameFactory
   define :types
   define(:create) {|type, board|}
 end
+
+describe TicTacToe::GameFactory do
+  it "checks game factory" do
+    MockGameFactory.should be_substitutable_for(TicTacToe::GameFactory)
+  end
+end

@@ -57,7 +57,7 @@ describe TicTacToe::Console do
     end
 
     it "displays a message asking user to select a game type" do
-      expected_display = "Please select a game type."
+      expected_display = "Please enter a game type from the list."
       @input.string = "1"
       @console.game_type
       @output.string.should match expected_display
@@ -66,6 +66,13 @@ describe TicTacToe::Console do
     it "returns user input in integer" do
       @input.string = "1"
       @console.game_type.should == 1
+    end
+
+    it "asks for user input again when user enter a character" do
+      expected_display = "Please enter a game type from the list."
+      @input.should_receive(:gets).twice.and_return("a", "1")
+      @console.game_type
+      @output.string.should match expected_display
     end
   end
 
@@ -77,7 +84,7 @@ describe TicTacToe::Console do
 
   it "display tied game" do
     @console.display_tied_game
-    @output.string.should == "It's a tied!\n"
+    @output.string.should == "It's a tie!\n"
   end
 
   it "displays square is not available" do

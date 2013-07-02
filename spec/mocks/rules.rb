@@ -7,3 +7,9 @@ class MockRules
   define(:tied?)
   define(:winner)
 end
+
+describe TicTacToe::Rules do
+  it "checks if mock rules is substitutable" do
+    MockRules.should be_substitutable_for(TicTacToe::Rules)
+  end
+end

@@ -19,20 +19,6 @@ describe TicTacToe::Main do
     @controller = TicTacToe::Main.new(@ui, @game_factory)
   end
 
-  context "ensure mock class has the same interface" do
-    it "checks MockGame" do
-      MockGame.should be_substitutable_for(TicTacToe::Game)
-    end
-
-    it "checks console" do
-      MockConsole.should be_substitutable_for(TicTacToe::Console)
-    end
-
-    it "checks game factory" do
-      MockGameFactory.should be_substitutable_for(TicTacToe::GameFactory)
-    end
-  end
-
   describe "starts game" do
     it "displays welcome message" do
       @controller.start
@@ -47,6 +33,11 @@ describe TicTacToe::Main do
     it "creates a game based on user input" do
       @controller.start
       @game_factory.was told_to(:create)
+    end
+
+    it "asks ui for game type again if the input is incorrect" do
+      @game_factory.will_create ArgumentError.new, @game
+      @controller.start
     end
   end
 

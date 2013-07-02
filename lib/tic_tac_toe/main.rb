@@ -14,15 +14,22 @@ module TicTacToe
 
     def start
       @ui.display_welcome_message
-      game_type = @ui.game_type
-      @game = @game_factory.create(game_type, @board)
-
+      @game = create_game
       play until @game.over?
       @ui.display_board(@board)
       display_result
     end
 
     private
+    def create_game
+      game_type = @ui.game_type
+      begin
+        @game_factory.create(game_type, @board)
+      rescue ArgumentError
+        create_game
+      end
+    end
+
     def play
       @ui.display_board(@board)
       player = @game.current_player
