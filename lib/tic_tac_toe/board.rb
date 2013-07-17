@@ -86,7 +86,6 @@ module TicTacToe
     def out_of_range?(move)
       return true if move < 0
       return true if move >= squares.size
-      return false
     end
 
     def marked?(move)

@@ -7,16 +7,12 @@ module TicTacToe
         @board = board
         @player = player
         @opponent = opponent
-        @rules = TicTacToe::Rules.new(@board)
       end
 
       def move
-        if first_move?
-          first_move
-        else
-          move = minimax(@player)
-          move.move
-        end
+        return first_move if first_move?
+        move = minimax(@player, @board)
+        move.move
       end
 
       private
@@ -35,22 +31,22 @@ module TicTacToe
         0
       end
 
-      def minimax(player)
+      def minimax(player, board)
         moves = []
-        @board.available_moves.each do |move|
-          @board.mark(move, player)
-          moves << player_move(player, move)
-          @board.clear(move)
+        clone_board = board.clone
+        clone_board.available_moves.each do |move|
+          clone_board.mark(move, player)
+          moves << player_move(player, move, clone_board)
           found_best_move?(moves[-1])
         end
         best_move(moves)
       end
 
-      def player_move(player, move)
-        if @rules.game_over?
-          PlayerMove.new(move, score(player), 0)
+      def player_move(player, move, board)
+        if rules(board).game_over?
+          PlayerMove.new(move, score(player, board), 0)
         else
-          child_move = minimax(opponent(player))
+          child_move = minimax(opponent(player), board)
           PlayerMove.new(move, -child_move.score, child_move.depth += 1)
         end
       end
@@ -59,13 +55,11 @@ module TicTacToe
         move.score == WINNING_SCORE and move.depth == 0
       end
 
-      def score(player)
-        winner = @rules.winner
+      def score(player, board)
+        winner = rules(board).winner
         return WINNING_SCORE if winner == player
         return LOSING_SCORE if winner == opponent(player)
-        return TIE if @rules.tied?
-
-        nil
+        return TIE if rules(board).tied?
       end
 
       def opponent(player)
@@ -75,6 +69,10 @@ module TicTacToe
       def best_move(moves)
         sorted_moves = moves.sort{ |a, b| [a.score, a.depth] <=> [b.score, b.depth]}
         sorted_moves.max_by {|m| m.score}
+      end
+
+      def rules(board)
+        TicTacToe::Rules.new(board)
       end
     end
 

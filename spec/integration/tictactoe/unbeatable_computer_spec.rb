@@ -16,6 +16,15 @@ describe "Unbeatable computer" do
     @human_value = "X"
   end
 
+  it "wins all game when computer goes first" do
+    make_computer_move(@board)
+    make_move(@board, [])
+  end
+
+  it "wins all game when human goes first" do
+    make_move(@board, [])
+  end
+
   def make_computer_move(clone_board)
     computer = TicTacToe::PlayerFactory.new.computer(clone_board)
     clone_board.mark(computer.move, computer.value)
@@ -45,13 +54,5 @@ describe "Unbeatable computer" do
     end
   end
 
-  it "wins all game when computer goes first" do
-    make_computer_move(@board)
-    make_move(@board, [])
-  end
-
-  it "wins all game when human goes first" do
-    make_move(@board, [])
-  end
 
 end
