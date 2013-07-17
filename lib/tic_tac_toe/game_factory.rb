@@ -9,7 +9,7 @@ module TicTacToe
     end
 
     def types
-      ["You vs Computer", "Computer vs You", "You vs Friend", "Computer vs Computer"]
+      [[:human, :computer], [:computer, :human], [:human, :human], [:computer, :computer]]
     end
 
     def create(type_index, board)
@@ -29,27 +29,23 @@ module TicTacToe
 
     private
     def computer_human_game(board)
-      computer = @player_factory.computer(board)
-      human = @player_factory.human
-      TicTacToe::Game.new(board, computer, human)
+      create_game(board, @player_factory.computer(board), @player_factory.human)
     end
 
     def human_computer_game(board)
-      computer = @player_factory.computer(board)
-      human = @player_factory.human
-      TicTacToe::Game.new(board, human, computer)
+      create_game(board, @player_factory.human, @player_factory.computer(board))
     end
 
     def human_human_game(board)
-      human1 = @player_factory.human
-      human2 = @player_factory.human("Friend", "O")
-      TicTacToe::Game.new(board, human1, human2)
+      create_game(board, @player_factory.human, @player_factory.human("Friend", "O"))
     end
 
     def computer_computer_game(board)
-      computer1 = @player_factory.computer(board, "X", "O")
-      computer2 = @player_factory.computer(board, "O", "X")
-      TicTacToe::Game.new(board, computer1, computer2)
+      create_game(board, @player_factory.computer(board, "X", "O"), @player_factory.computer(board, "O", "X"))
+    end
+
+    def create_game(board, player1, player2)
+      TicTacToe::Game.new(board, player1, player2)
     end
   end
 end

@@ -32,7 +32,7 @@ module TicTacToe
     end
 
     def display_tied_game
-      @output.puts("It's a tie!")
+      @output.puts("Tied!")
     end
 
     def display_square_not_available
@@ -56,9 +56,18 @@ module TicTacToe
     def game_type_list
       result = ""
       TicTacToe::GameFactory.new.types.each_with_index do |value, index|
-        result << "#{index + 1} - #{value}\n"
+        result << "#{index + 1} - #{game_type_values(value)}\n"
       end
       result
+    end
+
+    def game_type_values(types)
+      "#{player_type(types[0])} vs #{player_type(types[1])}"
+    end
+
+    def player_type(type)
+      return "Human" if type == :human
+      return "Computer" if type == :computer
     end
   end
 end

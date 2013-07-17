@@ -10,7 +10,7 @@ class SimpleStrategy
   end
 end
 
-describe "Unbeatable computer" do
+describe "Unbeatable computer", :slow_test => true  do
   before(:each) do
     @board = TicTacToe::Board.new
     @human_value = "X"
