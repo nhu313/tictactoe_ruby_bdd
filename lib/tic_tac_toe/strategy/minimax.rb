@@ -33,8 +33,8 @@ module TicTacToe
 
       def minimax(player, board)
         moves = []
-        clone_board = board.clone
-        clone_board.available_moves.each do |move|
+        board.available_moves.each do |move|
+          clone_board = board.clone
           clone_board.mark(move, player)
           moves << player_move(player, move, clone_board)
           found_best_move?(moves[-1])
