@@ -21,7 +21,7 @@ module TicTacToe
         squares[move] = value
         @unique_marked_values << value if !@unique_marked_values.include?(value)
       else
-        raise MoveNotAvailableError
+        raise MoveNotAvailableError.new("#{value} is trying to move at #{move}. available_moves: #{available_moves.inspect}")
       end
     end
 
@@ -65,6 +65,14 @@ module TicTacToe
         result << move if move_available?(move)
       end
       result
+    end
+
+    def clone
+      board_copy = self.class.new
+      squares.each_with_index do |value, index|
+        board_copy.mark(index, value) if value
+      end
+      board_copy
     end
 
     private

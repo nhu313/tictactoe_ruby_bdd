@@ -165,7 +165,7 @@ describe TicTacToe::Board do
     it "returns two marks when two user marks the board" do
       @board.mark(4, "X")
       @board.mark(0, "O")
-      @board.unique_marked_values.should == ["X", "O"]
+      @board.unique_marked_values.should =~ ["X", "O"]
     end
 
     it "returns one mark even though user marks the board twice" do
@@ -174,6 +174,30 @@ describe TicTacToe::Board do
       @board.unique_marked_values.should == [@player]
     end
 
+  end
+
+  describe "creating a copy of the board" do
+    it "is marked on the copy when the original is marked" do
+      @board.mark(4, "X")
+      board_copy = @board.clone
+
+      board_copy.available_moves.should_not include(4)
+    end
+
+    it "is unaffected by changes to the original" do
+      @board.mark(4, "X")
+      board_copy = @board.clone
+      @board.mark(5, "O")
+
+      board_copy.available_moves.should include(5)
+    end
+
+    it "marks the actual value" do
+      @board.mark(4, "X")
+      board_copy = @board.clone
+
+      board_copy.unique_marked_values.should == ["X"]
+    end
   end
 
   def mark_all_squares
