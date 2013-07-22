@@ -86,37 +86,6 @@ describe TicTacToe::Game do
     end
   end
 
-  # describe "a copy of the game" do
-  #   it "has the same current player" do
-  #     @player1_strategy.add_move(1)
-  #     @game.make_move
-  #     @game.clone.current_player.should == @game.current_player
-  #   end
-  #
-  #   it "has the same moves previously made" do
-  #     @player1_strategy.add_move(1)
-  #     @game.make_move
-  #     @game.clone.board.available_moves.should_not include(1)
-  #   end
-  #
-  #   it "has the current player unaffected by changes to the original game" do
-  #     clone_game = @game.clone
-  #     @player1_strategy.add_move(1)
-  #     @game.make_move
-  #
-  #     clone_game.current_player.should == @player1
-  #     @game.current_player.should == @player2
-  #   end
-  #
-  #   it "clones the board" do
-  #     clone_game = @game.clone
-  #     @player1_strategy.add_move(1)
-  #     @game.make_move
-  #
-  #     @game.board.available_moves.should_not include(1)
-  #     clone_game.board.available_moves.should include(1)
-  #   end
-  # end
   def mark_board(moves, value)
     moves.each do |m|
       @board.mark(m, value)
