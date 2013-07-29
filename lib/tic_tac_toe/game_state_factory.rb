@@ -13,44 +13,44 @@ module TicTacToe
       [[:human, :computer], [:computer, :human], [:human, :human], [:computer, :computer]]
     end
 
-    def create(type_index, board)
-      case type_index
+    def create(game_type)
+      case game_type
       when 1
-        human_computer_game(board)
+        human_computer_game
       when 2
-        computer_human_game(board)
+        computer_human_game
       when 3
-        human_human_game(board)
+        human_human_game
       when 4
-        computer_computer_game(board)
+        computer_computer_game
       else
-        raise ArgumentError, "Type does not exist. Please select a number corresponding to the game type."
+        raise ArgumentError, "Type #{game_type} does not exist. Please select a number corresponding to the game type."
       end
     end
 
     private
-    def computer_human_game(board)
-      create_game(board, @player_factory.computer(board), @player_factory.human)
+    def computer_human_game
+      create_game(@player_factory.computer, @player_factory.human)
     end
 
-    def human_computer_game(board)
-      create_game(board, @player_factory.human, @player_factory.computer(board))
+    def human_computer_game
+      create_game(@player_factory.human, @player_factory.computer)
     end
 
-    def human_human_game(board)
+    def human_human_game
       player1 = @player_factory.human
       player2 = @player_factory.human("Friend", TicTacToe::Values.opponent(player1.value))
-      create_game(board, player1, player2)
+      create_game(player1, player2)
     end
 
-    def computer_computer_game(board)
-      computer1 = @player_factory.computer(board, TicTacToe::VALUES[0])
-      computer2 = @player_factory.computer(board, TicTacToe::Values.opponent(computer1.value))
-      create_game(board, computer1, computer2)
+    def computer_computer_game
+      computer1 = @player_factory.computer(TicTacToe::VALUES[0])
+      computer2 = @player_factory.computer(TicTacToe::Values.opponent(computer1.value))
+      create_game(computer1, computer2)
     end
 
-    def create_game(board, player1, player2)
-      TicTacToe::GameState.new(board, [player1, player2])
+    def create_game(player1, player2)
+      TicTacToe::GameState.new([player1, player2])
     end
   end
 end

@@ -8,8 +8,8 @@ module TicTacToe
       @strategy = strategy
     end
 
-    def move
-      @strategy.move
+    def move(board)
+      board.mark(strategy.move(board), value)
     end
   end
 end

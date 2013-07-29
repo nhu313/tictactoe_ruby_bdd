@@ -9,7 +9,7 @@ class MockDynamicStrategy
     @moves << move
   end
 
-  def move
+  def move(*board)
     @moves.shift
   end
 

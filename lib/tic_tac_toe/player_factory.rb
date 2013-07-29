@@ -9,8 +9,8 @@ module TicTacToe
       TicTacToe::Player.new(name, value, TicTacToe::Strategy::ConsoleUser.new)
     end
 
-    def computer(board, value = TicTacToe::VALUES[1])
-      ai = TicTacToe::Strategy::Minimax.new(board, value, TicTacToe::Values.opponent(value))
+    def computer(value = TicTacToe::VALUES[1])
+      ai = TicTacToe::Strategy::Minimax.new(value)
       TicTacToe::Player.new("Computer", value, ai)
     end
   end

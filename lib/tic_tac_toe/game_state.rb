@@ -1,8 +1,10 @@
+require 'tic_tac_toe/board'
+
 module TicTacToe
   class GameState
     attr_reader :board, :current_player
 
-    def initialize(board, players)
+    def initialize(players, board = TicTacToe::Board.new)
       @board = board
       @players = players
       @current_player = players[0]

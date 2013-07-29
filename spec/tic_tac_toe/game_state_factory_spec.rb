@@ -6,7 +6,6 @@ require 'tic_tac_toe/player'
 
 describe TicTacToe::GameStateFactory do
   before(:each) do
-    @board = "board"
     @player_factory = MockPlayerFactory.new
     @game_factory = TicTacToe::GameStateFactory.new(@player_factory)
   end
@@ -19,11 +18,6 @@ describe TicTacToe::GameStateFactory do
     @game_factory.types.size.should == 4
   end
 
-  it "sets the board in the game" do
-    game = @game_factory.create(1, @board)
-    game.board.should == @board
-  end
-
   context "creates game state" do
     before(:each) do
       @human = TicTacToe::Player.new("Human", TicTacToe::VALUES[0], nil)
@@ -34,7 +28,7 @@ describe TicTacToe::GameStateFactory do
     end
 
     def test_game_state_creation(game_type, players)
-      game = @game_factory.create(game_type, @board)
+      game = @game_factory.create(game_type)
       game.current_player.should == players[0]
       game.change_player
       game.current_player.should == players[1]

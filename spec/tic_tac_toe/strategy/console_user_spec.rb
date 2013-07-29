@@ -13,7 +13,7 @@ describe TicTacToe::Strategy::ConsoleUser do
     it "prompts the user for a move" do
       @output.should_receive(:puts).with("Please enter a square number that is not marked: ")
       @input.should_receive(:gets).and_return("3")
-      @strategy.move
+      @strategy.move(@board)
     end
 
     it "returns a number when user enters a number" do

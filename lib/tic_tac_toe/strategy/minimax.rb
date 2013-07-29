@@ -1,33 +1,35 @@
 require 'tic_tac_toe/rules'
+require 'tic_tac_toe/values'
 
 module TicTacToe
   module Strategy
     class Minimax
-      def initialize(board, player, opponent)
-        @board = board
-        @player = player
-        @opponent = opponent
-      end
-
-      def move
-        return first_move if first_move?
-        move = minimax(@player, @board)
-        move.move
-      end
-
-      private
       WINNING_SCORE = 1
       LOSING_SCORE = -1
       TIE = 0
       MIDDLE_SQUARE = 4
 
-      def first_move?
-        moves_count = @board.number_of_moves
+      def initialize(player_value)
+        @player_value = player_value
+        @opponent_value = TicTacToe::Values.opponent(@player_value)
+      end
+
+      def move(board)
+        return first_move(board) if first_move?(board)
+        move = minimax(player_value, board)
+        move.move
+      end
+
+      private
+      attr_reader :player_value, :opponent_value
+
+      def first_move?(board)
+        moves_count = board.number_of_moves
         moves_count == 0 || moves_count == 1
       end
 
-      def first_move
-        return MIDDLE_SQUARE if @board.available_moves.include?(MIDDLE_SQUARE)
+      def first_move(board)
+        return MIDDLE_SQUARE if board.available_moves.include?(MIDDLE_SQUARE)
         0
       end
 
@@ -63,7 +65,7 @@ module TicTacToe
       end
 
       def opponent(player)
-        (player == @player) ? @opponent : @player
+        (player == player_value) ? opponent_value : player_value
       end
 
       def best_move(moves)

@@ -11,7 +11,7 @@ describe TicTacToe::GameState do
     @board = TicTacToe::Board.new
     @player1 = TicTacToe::Player.new("player1", TicTacToe::VALUES[0], nil)
     @player2 = TicTacToe::Player.new("player1", TicTacToe::VALUES[1], nil)
-    @game_state = TicTacToe::GameState.new(@board, [@player1, @player2])
+    @game_state = TicTacToe::GameState.new([@player1, @player2], @board)
   end
 
 

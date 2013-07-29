@@ -5,7 +5,7 @@ class MockPlayerFactory
   Surrogate.endow(self)
 
   define(:human) {|name = "human", value = TicTacToe::VALUES[0]|}
-  define(:computer) {|board, value = TicTacToe::VALUES[1]|}
+  define(:computer) {|value = TicTacToe::VALUES[1]|}
 end
 
 describe TicTacToe::PlayerFactory do

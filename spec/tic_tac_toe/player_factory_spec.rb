@@ -33,26 +33,22 @@ describe TicTacToe::PlayerFactory do
   end
 
   context "computer player" do
-    before(:each) do
-      @board = "fake board"
-    end
-
     it "returns a computer player with given value" do
       computer_value = "Danny"
-      player = @factory.computer(@board, computer_value)
+      player = @factory.computer(computer_value)
       player.value.should == computer_value
     end
 
     it "checks default strategy" do
-      @factory.computer(@board).strategy.should be_kind_of(TicTacToe::Strategy::Minimax)
+      @factory.computer.strategy.should be_kind_of(TicTacToe::Strategy::Minimax)
     end
 
     it "checks default name" do
-      @factory.computer(@board).name.should == "Computer"
+      @factory.computer.name.should == "Computer"
     end
 
     it "checks default value" do
-      @factory.computer(@board).value.should == "O"
+      @factory.computer.value.should == "O"
     end
   end
 

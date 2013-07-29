@@ -7,7 +7,7 @@ module TicTacToe
         @output = output
       end
 
-      def move
+      def move(*board)
         move = nil
 
         until move =~ NUMBER
