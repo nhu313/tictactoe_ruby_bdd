@@ -1,41 +1,63 @@
 require 'tic_tac_toe/rules'
+require 'tic_tac_toe/ui/console'
+require 'tic_tac_toe/game_state_factory'
+require 'tic_tac_toe/board'
 
 module TicTacToe
   class Game
-    attr_reader :current_player, :board
+    attr_reader :ui, :game_state
+    attr_writer :rules
 
-    def initialize(board, player1, player2)
-      @board = board
-      @current_player = @player1 = player1
-      @player2 = player2
+    def initialize(ui = TicTacToe::Console.new, game_state_factory = TicTacToe::GameStateFactory.new)
+      @ui = ui
+      @game_state_factory = game_state_factory
+      @board = TicTacToe::Board.new
       @rules = TicTacToe::Rules.new(@board)
     end
 
-    def make_move
-      player_move = @current_player.move
-      if player_move
-        @board.mark(player_move, @current_player.value)
-        change_player
-      end
-    end
-
-    def over?
-      @rules.game_over?
-    end
-
-    def winner
-      player(@rules.winner)
+    def start
+      ui.display_welcome_message
+      @game_state = create_game_state
+      play until @rules.game_over?
+      @ui.display_board(@board)
+      display_result
     end
 
     private
-    def change_player
-      @current_player = (@current_player == @player1) ? @player2 : @player1
+    def create_game_state
+      game_type = @ui.game_type
+      begin
+        @game_state_factory.create(game_type, @board)
+      rescue ArgumentError
+        create_game_state
+      end
     end
 
-    def player(mark)
-      return @player1 if mark == @player1.value
-      return @player2 if mark == @player2.value
+    def play
+      ui.display_board(@board)
+      player = game_state.current_player
+      ui.display_player_turn(player)
+      make_move
+      game_state.change_player
+      play until @rules.game_over?
     end
 
+    def make_move
+      begin
+        player = game_state.current_player
+        @board.mark(player.move, player.value)
+      rescue MoveNotAvailableError
+        make_move
+      end
+    end
+
+    def display_result
+      player = game_state.player(@rules.winner)
+      if player
+        @ui.display_winner(player)
+      else
+        @ui.display_tied_game
+      end
+    end
   end
 end

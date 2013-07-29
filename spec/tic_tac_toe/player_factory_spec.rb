@@ -2,6 +2,7 @@ require 'tic_tac_toe/spec_helper'
 require 'tic_tac_toe/player_factory'
 require 'tic_tac_toe/strategy/minimax'
 require 'tic_tac_toe/strategy/console_user'
+require 'tic_tac_toe/values'
 
 describe TicTacToe::PlayerFactory do
 
@@ -38,8 +39,7 @@ describe TicTacToe::PlayerFactory do
 
     it "returns a computer player with given value" do
       computer_value = "Danny"
-      opponent_value = "Bill"
-      player = @factory.computer(@board, computer_value, opponent_value)
+      player = @factory.computer(@board, computer_value)
       player.value.should == computer_value
     end
 
