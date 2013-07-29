@@ -1,10 +1,11 @@
 require 'surrogate/rspec'
+require 'tic_tac_toe/values'
 
 class MockPlayerFactory
   Surrogate.endow(self)
 
-  define(:human) {|name = "Sue", value = "X"|}
-  define(:computer) {|board, value = "X", opponent="O"|}
+  define(:human) {|name = "human", value = TicTacToe::VALUES[0]|}
+  define(:computer) {|board, value = TicTacToe::VALUES[1]|}
 end
 
 describe TicTacToe::PlayerFactory do
