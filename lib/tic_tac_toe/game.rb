@@ -1,11 +1,9 @@
-require 'tic_tac_toe/rules'
 require 'tic_tac_toe/ui/console'
 require 'tic_tac_toe/game_state_factory'
 require 'tic_tac_toe/board'
 
 module TicTacToe
   class Game
-    attr_writer :rules
 
     def initialize(ui = TicTacToe::Console.new, game_state_factory = TicTacToe::GameStateFactory.new)
       @ui = ui
@@ -15,7 +13,7 @@ module TicTacToe
     def start
       ui.display_welcome_message
       @game_state = create_game_state
-      play until rules.game_over?
+      play until game_state.game_over?
       ui.display_board(board)
       display_result
     end
@@ -44,14 +42,14 @@ module TicTacToe
       begin
         player.move(board)
       rescue MoveNotAvailableError
-        make_move
+        make_move(player)
       end
     end
 
     def display_result
-      player = game_state.player(rules.winner)
-      if player
-        ui.display_winner(player)
+      winner = game_state.winner
+      if winner
+        ui.display_winner(winner)
       else
         ui.display_tied_game
       end
@@ -59,10 +57,6 @@ module TicTacToe
 
     def board
       game_state.board
-    end
-
-    def rules
-      @rules ||= TicTacToe::Rules.new(board)
     end
   end
 end

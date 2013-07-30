@@ -1,4 +1,5 @@
 require 'tic_tac_toe/board'
+require 'tic_tac_toe/rules'
 
 module TicTacToe
   class GameState
@@ -12,6 +13,19 @@ module TicTacToe
 
     def change_player
       @current_player = (@players[0] == @current_player)? @players[1] : @players[0]
+    end
+
+    def game_over?
+      rules.game_over?
+    end
+
+    def winner
+      player(rules.winner)
+    end
+
+    private
+    def rules
+      TicTacToe::Rules.new(board)
     end
 
     def player(value)

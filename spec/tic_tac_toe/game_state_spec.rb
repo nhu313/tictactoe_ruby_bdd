@@ -38,14 +38,36 @@ describe TicTacToe::GameState do
     end
   end
 
-  describe "get player based on value" do
-    it "returns player 1 given player 1 value" do
-      game_state.player(player1.value).should == player1
+  describe "game over" do
+    it "is false when there is no mark" do
+      game_state.should_not be_game_over
     end
 
-    it "returns player 2 given player 2 value" do
-      game_state.player(player2.value).should == player2
+    it "should be over when there is a winner" do
+      mark_winning_board(player1.value)
+      game_state.should be_game_over
+    end
+  end
+
+  describe "winner" do
+    it "has no winner when there is no mark" do
+      game_state.winner.should be_nil
     end
 
+    it "is player 1" do
+      mark_winning_board(player1.value)
+      game_state.winner.should == player1
+    end
+
+    it "is player 2" do
+      mark_winning_board(player2.value)
+      game_state.winner.should == player2
+    end
+  end
+
+  def mark_winning_board(value)
+    [0, 4, 8].each do |move|
+      game_state.board.mark(move, value)
+    end
   end
 end
