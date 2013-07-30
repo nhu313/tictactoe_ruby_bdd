@@ -26,8 +26,8 @@ describe "Unbeatable computer", :slow_test => true  do
   end
 
   def make_computer_move(clone_board)
-    computer = TicTacToe::PlayerFactory.new.computer(clone_board)
-    clone_board.mark(computer.move, computer.value)
+    computer = TicTacToe::PlayerFactory.new.computer
+    computer.move(clone_board)
     clone_board
   end
 
@@ -50,7 +50,7 @@ describe "Unbeatable computer", :slow_test => true  do
 
   def make_players_move(board, move_history, move)
     move_history << move
-    board.mark(move, "X")
+    board.mark(move, @human_value)
     make_computer_move(board) if !rules(board).game_over?
     play_game_for_each_available_move(board, move_history)
   end

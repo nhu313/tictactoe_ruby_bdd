@@ -28,7 +28,7 @@ module TicTacToe
     end
 
     def display_winner(winner)
-      @output.puts("#{winner.name}(#{winner.value}) win!")
+      @output.puts("#{winner.name}(#{winner.value}) wins!")
     end
 
     def display_tied_game

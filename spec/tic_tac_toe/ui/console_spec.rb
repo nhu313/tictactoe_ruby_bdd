@@ -79,7 +79,7 @@ describe TicTacToe::Console do
   it "displays winner" do
     player = TicTacToe::Player.new("Todd", "X", nil)
     @console.display_winner(player)
-    @output.string.should == "Todd(X) win!\n"
+    @output.string.should == "Todd(X) wins!\n"
   end
 
   it "display tied game" do

@@ -10,10 +10,6 @@ describe TicTacToe::GameStateFactory do
     @game_factory = TicTacToe::GameStateFactory.new(@player_factory)
   end
 
-  it "ensures MockPlayerFactory has the same interface as PlayerFactory" do
-    MockPlayerFactory.should be_substitutable_for(TicTacToe::PlayerFactory)
-  end
-
   it "returns 4 types of games" do
     @game_factory.types.size.should == 4
   end
@@ -58,7 +54,7 @@ describe TicTacToe::GameStateFactory do
   end
 
   it "raises an error when the game type doesn't exist" do
-    lambda{@game_factory.create(5, @board)}.should raise_error(ArgumentError)
+    lambda{@game_factory.create(10)}.should raise_error(ArgumentError)
   end
 
   def opponent_value(value)

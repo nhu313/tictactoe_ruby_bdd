@@ -4,7 +4,7 @@ class MockGameStateFactory
   Surrogate.endow(self)
   define(:initialize) {|player_factory|}
   define :types
-  define(:create) {|type, board|}
+  define(:create) {|type|}
 end
 
 describe TicTacToe::GameStateFactory do
