@@ -25,7 +25,7 @@ module TicTacToe
 
     private
     def rules
-      TicTacToe::Rules.new(board)
+      @rules ||= TicTacToe::Rules.new(board)
     end
 
     def player(value)
