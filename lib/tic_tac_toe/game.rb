@@ -11,8 +11,8 @@ module TicTacToe
       @rules = TicTacToe::Rules.new(@board)
     end
 
-    def make_move
-      player_move = @current_player.move
+    def make_move(*move) #rename to make player move
+      player_move = move[0] || @current_player.move
       if player_move
         @board.mark(player_move, @current_player.value)
         change_player

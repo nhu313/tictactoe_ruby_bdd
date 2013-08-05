@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-require 'tic_tac_toe/main'
+require 'tic_tac_toe/runner'
 
-game = TicTacToe::Main.new
-game.start
+runner = TicTacToe::Runner.new
+runner.start

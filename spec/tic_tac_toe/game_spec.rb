@@ -18,16 +18,35 @@ describe TicTacToe::Game do
   end
 
   context "marking board" do
-    it "mark the board with user input" do
+    it "mark the board with user input when caller doesn't pass in a move" do
       @player1_strategy.add_move(1)
       @game.make_move
       @board.unique_marked_values.should include(@player1.value)
     end
 
-    it "does not mark the board if user doesn't return an input" do
+    it "does not mark the board if user doesn't return an input and caller didn't pass in a move" do
       @player1_strategy.add_move(nil)
       @game.make_move
       @board.unique_marked_values.should_not include(@player1.value)
+    end
+
+    it "marks the board with the move passed in" do
+      @player1_strategy.add_move(1)
+      move = 2
+      @game.make_move(move)
+      @board.available_moves.should_not include(move)
+    end
+
+    it "marks the board with player move when move passed in is nil" do
+      @player1_strategy.add_move(1)
+      @game.make_move(nil)
+      @board.available_moves.should_not include(1)
+    end
+
+    it "marks the board with current player value when the move passed in" do
+      move = 2
+      @game.make_move(move)
+      @board.unique_marked_values.should include(@player1.value)
     end
   end
 

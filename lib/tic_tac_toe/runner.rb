@@ -3,9 +3,8 @@ require 'tic_tac_toe/game_factory'
 require 'tic_tac_toe/board'
 
 module TicTacToe
-  class Main
-    attr_writer :rules
-
+  class Runner
+    attr_reader :board
     def initialize(ui = TicTacToe::Console.new, game_factory = TicTacToe::GameFactory.new)
       @ui = ui
       @board = TicTacToe::Board.new

@@ -47,7 +47,7 @@ module TicTacToe
       result = []
       (0...size).each do |col|
         result << squares.values_at(* squares.each_index.select do |i|
-          (col - i) % 3 == 0
+          (col - i) % size == 0
         end)
       end
       result
