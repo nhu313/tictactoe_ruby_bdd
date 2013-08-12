@@ -11,7 +11,7 @@ module TicTacToe
       @current_player = players[0]
     end
 
-    def game_over?
+    def over?
       rules.game_over?
     end
 

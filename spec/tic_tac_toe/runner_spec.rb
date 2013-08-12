@@ -7,36 +7,36 @@ require 'mocks/ui/console'
 require 'mocks/player'
 
 describe TicTacToe::Runner do
-  attr_reader :game, :ui, :game_state, :game_state_factory
+  attr_reader :runner, :game, :ui, :game_factory
 
   before(:each) do
-    @game_state = MockGame.factory
-    @game_state_factory = MockGameFactory.factory create: game_state
+    @game = MockGame.factory
+    @game_factory = MockGameFactory.factory create: game
     @ui = MockConsole.factory
-    @game = TicTacToe::Runner.new(@ui, @game_state_factory)
+    @runner = TicTacToe::Runner.new(@ui, @game_factory)
   end
 
   it "displays a welcome message" do
-    game.start
+    runner.start
     ui.was told_to(:display_welcome_message)
   end
 
   describe "create game state" do
     it "asks user for a game type" do
-      game.start
+      runner.start
       @ui.was asked_for(:game_type)
     end
 
     it "asks game state factory to create a game with input game type" do
       game_type = 4
       ui.will_have_game_type 4
-      game.start
-      @game_state_factory.was told_to(:create).with(game_type)
+      runner.start
+      @game_factory.was told_to(:create).with(game_type)
     end
 
     it "asks ui for game type again if the input is incorrect" do
-      game_state_factory.will_create ArgumentError.new, game_state
-      game.start
+      game_factory.will_create ArgumentError.new, game
+      runner.start
       ui.was asked_for(:game_type).times(2)
     end
   end
@@ -46,42 +46,42 @@ describe TicTacToe::Runner do
 
     before(:each) do
       @player = MockPlayer.new
-      game_state.will_game_over? false, true
-      game_state.will_have_current_player @player
+      game.will_over? false, true
+      game.will_have_current_player @player
     end
 
     it "displays the board" do
-      game.start
+      runner.start
       ui.was told_to(:display_board)
     end
 
     it "tells ui to display player turn" do
-      game.start
+      runner.start
       ui.was told_to(:display_player_turn).with(player)
     end
 
     it "tells player to move again if there is an error" do
-      game_state.will_make_player_move TicTacToe::MoveNotAvailableError.new, nil
-      game.start
-      game_state.was told_to(:make_player_move).times(2)
+      game.will_make_player_move TicTacToe::MoveNotAvailableError.new, nil
+      runner.start
+      game.was told_to(:make_player_move).times(2)
     end
   end
 
   describe "end game" do
     it "display a board at the end of the game" do
-      game.start
+      runner.start
       ui.was told_to(:display_board)
     end
 
     it "asks ui to display a winner if there is a winner" do
       winner = "Winner"
-      game_state.will_have_winner winner
-      game.start
+      game.will_have_winner winner
+      runner.start
       ui.was told_to(:display_winner).with(winner)
     end
 
     it "asks ui to display a draw" do
-      game.start
+      runner.start
       ui.was told_to(:display_tied_game)
     end
   end
