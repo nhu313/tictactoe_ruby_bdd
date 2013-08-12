@@ -5,51 +5,48 @@ require 'tic_tac_toe/strategy/console_user'
 require 'tic_tac_toe/values'
 
 describe TicTacToe::PlayerFactory do
-
   before(:each) do
     @factory = TicTacToe::PlayerFactory.new
+    @value = TicTacToe::VALUES[0]
   end
 
-  context "console player" do
-    it "returns a console player with passed in values" do
-      name = "Billy"
-      value = "bill"
-      player = @factory.human(name, value)
-      player.name.should == name
-      player.value.should == value
+  it "checks player types" do
+    [:human, :computer] == @factory.types
+  end
+
+  context "human player" do
+    before(:each) do
+      @human = @factory.create(:human, @value)
     end
 
     it "strategy is console user" do
-      @factory.human.strategy.should be_kind_of(TicTacToe::Strategy::ConsoleUser)
+      @human.strategy.should be_kind_of(TicTacToe::Strategy::ConsoleUser)
     end
 
-    it "checks default name" do
-      @factory.human.name.should == "User"
+    it "checks name" do
+      @human.name.should == "User"
     end
 
-    it "checks default value" do
-      @factory.human.value.should == "X"
+    it "checks value" do
+      @human.value.should == @value
     end
   end
 
   context "computer player" do
-    it "returns a computer player with given value" do
-      computer_value = "Danny"
-      player = @factory.computer(computer_value)
-      player.value.should == computer_value
+    before(:each) do
+      @computer = @factory.create(:computer, @value)
     end
 
-    it "checks default strategy" do
-      @factory.computer.strategy.should be_kind_of(TicTacToe::Strategy::Minimax)
+    it "checks strategy" do
+      @computer.strategy.should be_kind_of(TicTacToe::Strategy::Minimax)
     end
 
-    it "checks default name" do
-      @factory.computer.name.should == "Computer"
+    it "checks name" do
+      @computer.name.should == "Computer"
     end
 
-    it "checks default value" do
-      @factory.computer.value.should == "O"
+    it "checks value" do
+      @computer.value.should == @value
     end
   end
-
 end

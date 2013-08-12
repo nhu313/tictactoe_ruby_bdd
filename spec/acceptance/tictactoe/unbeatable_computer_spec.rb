@@ -1,6 +1,7 @@
 require 'tic_tac_toe/board'
 require 'tic_tac_toe/rules'
 require 'tic_tac_toe/player_factory'
+require 'tic_tac_toe/values'
 
 class SimpleStrategy
   attr_accessor :next_move
@@ -11,9 +12,12 @@ class SimpleStrategy
 end
 
 describe "Unbeatable computer", :slow_test => true  do
+  attr_reader :computer
+
   before(:each) do
     @board = TicTacToe::Board.new
-    @human_value = "X"
+    @human_value = TicTacToe::VALUES[0]
+    @computer = TicTacToe::PlayerFactory.new.create(:computer, TicTacToe::VALUES[1])
   end
 
   it "wins all game when computer goes first" do
@@ -25,10 +29,8 @@ describe "Unbeatable computer", :slow_test => true  do
     play_game_for_each_available_move(@board)
   end
 
-  def make_computer_move(clone_board)
-    computer = TicTacToe::PlayerFactory.new.computer
-    computer.move(clone_board)
-    clone_board
+  def make_computer_move(board)
+    board.mark(computer.move(board), computer.value)
   end
 
   def rules(board)

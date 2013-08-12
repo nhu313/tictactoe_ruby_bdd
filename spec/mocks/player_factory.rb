@@ -4,8 +4,8 @@ require 'tic_tac_toe/values'
 class MockPlayerFactory
   Surrogate.endow(self)
 
-  define(:human) {|name = "human", value = TicTacToe::VALUES[0]|}
-  define(:computer) {|value = TicTacToe::VALUES[1]|}
+  define(:create){|player_type, value|}
+  define(:types){TicTacToe::PlayerFactory.new.types}
 end
 
 describe TicTacToe::PlayerFactory do
