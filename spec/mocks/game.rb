@@ -5,9 +5,9 @@ class MockGame
   define_reader :board
   define_reader :current_player
 
-  define :make_move
   define :winner
-  define(:over?){true}
+  define(:game_over?){true}
+  define(:make_player_move){|*move|}
 end
 
 describe TicTacToe::Game do

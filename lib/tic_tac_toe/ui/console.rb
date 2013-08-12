@@ -1,4 +1,4 @@
-require 'tic_tac_toe/game_state_factory'
+require 'tic_tac_toe/game_factory'
 
 module TicTacToe
   class Console
@@ -55,7 +55,7 @@ module TicTacToe
 
     def game_type_list
       result = ""
-      TicTacToe::GameStateFactory.new.types.each_with_index.map do |value, index|
+      TicTacToe::GameFactory.new.types.each_with_index.map do |value, index|
         result << "#{index + 1} - #{game_type_values(value)}\n"
       end
       result

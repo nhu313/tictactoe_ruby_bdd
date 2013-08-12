@@ -1,99 +1,104 @@
 require 'tic_tac_toe/spec_helper'
+require 'tic_tac_toe/board'
 require 'tic_tac_toe/game'
-
-require 'mocks/game_state_factory'
-require 'mocks/game_state'
-require 'mocks/ui/console'
-require 'mocks/player'
+require 'tic_tac_toe/player'
+require 'tic_tac_toe/values'
+require 'mocks/strategy/dynamic'
 
 describe TicTacToe::Game do
-  attr_reader :game, :ui, :game_state, :game_state_factory
+  attr_reader :game_state, :player1, :player2, :board
 
   before(:each) do
-    @game_state = MockGameState.factory
-    @game_state_factory = MockGameStateFactory.factory create: game_state
-    @ui = MockConsole.factory
-    @game = TicTacToe::Game.new(@ui, @game_state_factory)
+    @board = TicTacToe::Board.new
+    @player1_strategy = MockDynamicStrategy.new
+    @player1 = TicTacToe::Player.new("player1", TicTacToe::VALUES[0], @player1_strategy)
+    @player2 = TicTacToe::Player.new("player1", TicTacToe::VALUES[1], nil)
+    @game_state = TicTacToe::Game.new([@player1, @player2], @board)
   end
 
-  it "displays a welcome message" do
-    game.start
-    ui.was told_to(:display_welcome_message)
+
+  it "can read board" do
+    game_state.board.should == board
   end
 
-  describe "create game state" do
-    it "asks user for a game type" do
-      game.start
-      @ui.was asked_for(:game_type)
+  describe "game over" do
+    it "is false when there is no mark" do
+      game_state.should_not be_game_over
     end
 
-    it "asks game state factory to create a game with input game type" do
-      game_type = 4
-      ui.will_have_game_type 4
-      game.start
-      @game_state_factory.was told_to(:create).with(game_type)
-    end
-
-    it "asks ui for game type again if the input is incorrect" do
-      game_state_factory.will_create ArgumentError.new, game_state
-      game.start
-      ui.was asked_for(:game_type).times(2)
+    it "should be over when there is a winner" do
+      mark_winning_board(player1.value)
+      game_state.should be_game_over
     end
   end
 
-  describe "play game" do
-    attr_reader :player
-
-    before(:each) do
-      @player = MockPlayer.new
-      game_state.will_game_over? false, true
-      game_state.will_have_current_player @player
+  describe "winner" do
+    it "has no winner when there is no mark" do
+      game_state.winner.should be_nil
     end
 
-    it "displays the board" do
-      game.start
-      ui.was told_to(:display_board)
+    it "is player 1" do
+      mark_winning_board(player1.value)
+      game_state.winner.should == player1
     end
 
-    it "tells ui to display player turn" do
-      game.start
-      ui.was told_to(:display_player_turn).with(player)
+    it "is player 2" do
+      mark_winning_board(player2.value)
+      game_state.winner.should == player2
     end
-
-    it "told player to move" do
-      game.start
-      player.was told_to(:move)
-    end
-
-    it "tells player to move again if there is an error" do
-      player.will_move TicTacToe::MoveNotAvailableError.new, nil
-      game.start
-      player.was told_to(:move).times(2)
-    end
-
-    it "changes the player after a player move" do
-      game.start
-      game_state.was told_to(:change_player)
-    end
-
   end
 
-  describe "end game" do
-    it "display a board at the end of the game" do
-      game.start
-      ui.was told_to(:display_board)
+  context "make player move" do
+    it "mark the board with player move when caller doesn't pass in a move" do
+      @player1_strategy.add_move(1)
+      @game_state.make_player_move
+      @board.unique_marked_values.should include(@player1.value)
     end
 
-    it "asks ui to display a winner if there is a winner" do
-      winner = "Winner"
-      game_state.will_have_winner winner
-      game.start
-      ui.was told_to(:display_winner).with(winner)
+    it "does not mark the board if user doesn't return an input and caller didn't pass in a move" do
+      @player1_strategy.add_move(nil)
+      @game_state.make_player_move
+      @board.unique_marked_values.should_not include(@player1.value)
     end
 
-    it "asks ui to display a draw" do
-      game.start
-      ui.was told_to(:display_tied_game)
+    it "marks the board with the move passed in" do
+      @player1_strategy.add_move(1)
+      move = 2
+      @game_state.make_player_move(move)
+      @board.available_moves.should_not include(move)
+    end
+
+    it "marks the board with player move when move passed in is nil" do
+      @player1_strategy.add_move(1)
+      @game_state.make_player_move(nil)
+      @board.available_moves.should_not include(1)
+    end
+
+    it "marks the board with current player value when the move passed in" do
+      move = 2
+      @game_state.make_player_move(move)
+      @board.unique_marked_values.should include(@player1.value)
+    end
+  end
+
+  describe "changes player" do
+    it "doesn't change player if player 1 doesn't return a move" do
+      @game_state.current_player.should == @player1
+      @game_state.make_player_move
+      @game_state.current_player.should == @player1
+    end
+
+    it "changes to player 2 after player 1 moves" do
+      @game_state.current_player.should == @player1
+      @game_state.make_player_move(1)
+      @game_state.current_player.should == @player2
+    end
+  end
+
+
+  def mark_winning_board(value)
+    [0, 4, 8].each do |move|
+      game_state.board.mark(move, value)
     end
   end
 end

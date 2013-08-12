@@ -1,13 +1,13 @@
 require 'tic_tac_toe/spec_helper'
-require 'tic_tac_toe/game_state_factory'
+require 'tic_tac_toe/game_factory'
 require 'tic_tac_toe/player_factory'
 require 'mocks/player_factory'
 require 'tic_tac_toe/player'
 
-describe TicTacToe::GameStateFactory do
+describe TicTacToe::GameFactory do
   before(:each) do
     @player_factory = MockPlayerFactory.new
-    @game_factory = TicTacToe::GameStateFactory.new(@player_factory)
+    @game_factory = TicTacToe::GameFactory.new(@player_factory)
   end
 
   it "returns 4 types of games" do
@@ -26,7 +26,7 @@ describe TicTacToe::GameStateFactory do
     def test_game_state_creation(game_type, players)
       game = @game_factory.create(game_type)
       game.current_player.should == players[0]
-      game.change_player
+      game.make_player_move(1)
       game.current_player.should == players[1]
     end
 

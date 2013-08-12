@@ -24,10 +24,4 @@ describe TicTacToe::Player do
   it "gets strategy" do
     @player.strategy.should == @strategy
   end
-
-  it "makes move" do
-    board = TicTacToe::Board.new
-    @player.move(board)
-    board.available_moves.should_not include(@move)
-  end
 end

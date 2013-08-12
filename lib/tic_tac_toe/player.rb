@@ -9,7 +9,7 @@ module TicTacToe
     end
 
     def move(board)
-      board.mark(strategy.move(board), value)
+      strategy.move(board)
     end
   end
 end

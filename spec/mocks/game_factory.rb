@@ -1,14 +1,14 @@
 require 'surrogate/rspec'
 
-class MockGameStateFactory
+class MockGameFactory
   Surrogate.endow(self)
   define(:initialize) {|player_factory|}
   define :types
   define(:create) {|type|}
 end
 
-describe TicTacToe::GameStateFactory do
+describe TicTacToe::GameFactory do
   it "checks game factory" do
-    MockGameStateFactory.should be_substitutable_for(TicTacToe::GameStateFactory)
+    MockGameFactory.should be_substitutable_for(TicTacToe::GameFactory)
   end
 end

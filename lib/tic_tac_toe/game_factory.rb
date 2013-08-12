@@ -1,10 +1,10 @@
-require 'tic_tac_toe/game_state'
+require 'tic_tac_toe/game'
 require 'tic_tac_toe/board'
 require 'tic_tac_toe/player_factory'
 require 'tic_tac_toe/values'
 
 module TicTacToe
-  class GameStateFactory
+  class GameFactory
     def initialize(player_factory = TicTacToe::PlayerFactory.new)
       @player_factory = player_factory
     end
@@ -50,7 +50,7 @@ module TicTacToe
     end
 
     def create_game(player1, player2)
-      TicTacToe::GameState.new([player1, player2])
+      TicTacToe::Game.new([player1, player2])
     end
   end
 end
