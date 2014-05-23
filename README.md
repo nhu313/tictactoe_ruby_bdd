@@ -17,3 +17,5 @@ To run the slow test (i.e. computer player):
 
 To run all the test except the slow test:
 >rake test
+
+Updated in May
